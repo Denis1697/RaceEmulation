@@ -2,33 +2,14 @@
 
 EasyField::EasyField()
 {
-	raceField_ = new int*[FIELD_WIDTH];
-
-	for (int i = 0; i < FIELD_WIDTH; i++)
+	for (int j = 0; j < FIELD_HEIGHT; j++)
 	{
-		raceField_[i] = new int[FIELD_HEIGHT];
-
-		for (int j = 0; j < FIELD_HEIGHT; j++)
+		for (int i = 0; i < FIELD_WIDTH; i++)
 		{
-			if (i == 0 || i == FIELD_HEIGHT - 1)
-				raceField_[i][j] = BORDER;
-
-			raceField_[i][j] = EMPTY; 
-		}
-	}
-
-	bufferRaceField_ = new int*[FIELD_WIDTH];
-
-	for (int i = 0; i < FIELD_WIDTH; i++)
-	{
-		bufferRaceField_[i] = new int[FIELD_HEIGHT];
-
-		for (int j = 0; j < FIELD_HEIGHT; j++)
-		{
-			if (i == 0 || i == FIELD_HEIGHT - 1)
-				bufferRaceField_[i][j] = BORDER;
-
-			bufferRaceField_[i][j] = EMPTY;
+			if (i == 0 || i == FIELD_WIDTH - 1)
+				raceField_[j][i] = BORDER;
+			else
+				raceField_[j][i] = EMPTY;
 		}
 	}
 }
@@ -81,13 +62,31 @@ EasyField::generateObstacle()
 		x = rand() % (FIELD_WIDTH - obstacleLength);
 
 	for (int i = x; i < x + obstacleLength; i++)
-	{
-		bufferRaceField_[i][0] = OBSTACLE;
-	}
+		bufferField_[0][i] = OBSTACLE;
 }
 
 void 
 EasyField::placePlayerCar()
 {
+	raceField_[9][2] = CAR_TIRE;
+	raceField_[11][2] = CAR_TIRE;
+	raceField_[8][3] = CAR_TOP;
+	raceField_[10][3] = CAR_TORSO;
+	raceField_[9][4] = CAR_TIRE;
+	raceField_[11][4] = CAR_TIRE;
+}
 
+void 
+EasyField::drawField() const
+{
+	for (int j = 0; j < FIELD_HEIGHT; j++)
+	{
+		for (int i = 0; i < FIELD_WIDTH; i++)
+		{
+			char c = static_cast<char>(raceField_[j][i]);
+			//cout << raceField_[j][i] << " ";
+			cout << c;			
+		}
+		cout << endl;
+	}
 }
