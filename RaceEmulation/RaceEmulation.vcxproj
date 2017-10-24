@@ -147,16 +147,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ComplicatedField.cpp" />
+    <ClCompile Include="ConsoleHandler.cpp" />
     <ClCompile Include="EasyField.cpp" />
+    <ClCompile Include="GameProcessor.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComplicatedField.h" />
+    <ClInclude Include="ConsoleHandler.h" />
     <ClInclude Include="EasyField.h" />
-    <ClInclude Include="GameHandler.h" />
+    <ClInclude Include="GameProcessor.h" />
     <ClInclude Include="Includes.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="RaceField.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
