@@ -6,8 +6,10 @@ EasyField::EasyField()
 	{
 		for (int i = 0; i < FIELD_WIDTH; i++)
 		{
+			BlockType currentBorder = (j % 2 == 0 ? BORDER_ONE : BORDER_TWO);
+
 			if (i == 0 || i == FIELD_WIDTH - 1)
-				raceField_[j][i] = BORDER;
+				raceField_[j][i] = currentBorder;
 			else
 				raceField_[j][i] = EMPTY;
 		}
@@ -29,8 +31,8 @@ EasyField::getWidth() const
 void 
 EasyField::generateObstacle()
 {
-	int obstacleChoice = rand() % OBSTACLES_NO + 1;
-	int obstacleLength, x;
+	int obstacleChoice = rand() % OBSTACLES_NO;
+	int x, obstacleLength = 0;
 
 	switch (obstacleChoice)
 	{
@@ -45,48 +47,87 @@ EasyField::generateObstacle()
 		break;
 	}
 	
-	if (obstacleChoice == TREE)
+	if (obstacleChoice == TREE && FIELD_WIDTH < 10)
 	{
 		int choice = rand() % 2;
 
 		switch (choice)
 		{
 		case 0:
-			x = 0;
+			x = 1;
 			break;
 		case 1:
-			x = 3;
+			x = 4;
 		}
 	} 
 	else
 		x = rand() % (FIELD_WIDTH - obstacleLength);
 
 	for (int i = x; i < x + obstacleLength; i++)
-		bufferField_[0][i] = OBSTACLE;
+		buffer_[i] = OBSTACLE;
 }
 
 void 
-EasyField::placePlayerCar()
+EasyField::draw() const
 {
-	raceField_[9][2] = CAR_TIRE;
-	raceField_[11][2] = CAR_TIRE;
-	raceField_[8][3] = CAR_TOP;
-	raceField_[10][3] = CAR_TORSO;
-	raceField_[9][4] = CAR_TIRE;
-	raceField_[11][4] = CAR_TIRE;
-}
-
-void 
-EasyField::drawField() const
-{
+	cout << endl;
 	for (int j = 0; j < FIELD_HEIGHT; j++)
 	{
+		cout << " ";
 		for (int i = 0; i < FIELD_WIDTH; i++)
 		{
 			char c = static_cast<char>(raceField_[j][i]);
-			//cout << raceField_[j][i] << " ";
-			cout << c;			
+			cout << c;
 		}
 		cout << endl;
 	}
+}
+
+int 
+EasyField::getBlockType(const int& x, const int& y) const
+{
+	if (x < 0 || x > FIELD_WIDTH - 1 || y < 0 || y > FIELD_HEIGHT - 1)
+		return -1;
+
+	return raceField_[y][x];
+}
+
+void 
+EasyField::setBlockType(const int& x, const int& y, const int& blockType)
+{
+	if (x < 0 || x > FIELD_WIDTH - 1 || y < 0 || y > FIELD_HEIGHT - 1 || blockType < 0 || blockType > 255)
+		return;
+
+	raceField_[y][x] = blockType;
+}
+
+int 
+EasyField::getBufferBlockType(const int & x) const
+{
+	if (x < 0 || x > FIELD_WIDTH - 1)
+		return -1;
+
+	return buffer_[x];
+}
+
+void
+EasyField::clearBuffer()
+{
+	for (int i = 1; i < FIELD_WIDTH - 1; i++)
+		buffer_[i] = EMPTY;
+}
+
+void EasyField::placeObstacle()
+{
+	generateObstacle();
+
+	for (int i = 0; i < FIELD_WIDTH; i++)
+	{
+		int bufferBlockType = getBufferBlockType(i);
+
+		if (bufferBlockType == RaceField::OBSTACLE)
+			setBlockType(i, 0, bufferBlockType);
+	}
+
+	clearBuffer();
 }
