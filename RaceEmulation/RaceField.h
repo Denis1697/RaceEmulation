@@ -4,16 +4,17 @@
 class RaceField
 {
 public:
-	virtual int			getHeight()														const = 0;
-	virtual int			getWidth()														const = 0;
-	virtual void		draw()															const = 0;
-	virtual	void		drawBlock(const int& x, const int& y)							const = 0;
-	virtual void		generateObstacle()													  = 0;
-	virtual void		setBlockType(const int& x, const int& y, const int& blockType)		  = 0;
-	virtual int			getBlockType(const int& x, const int& y)						const = 0;
-	virtual int			getBufferBlockType(const int& x)								const = 0;
-	virtual void		clearBuffer()														  = 0;
-	virtual void		placeObstacle()														  = 0;
+	int				getHeight()														const;
+	int				getWidth()														const;
+	void			draw()															const;
+	void			drawBlock(const Coordinate& coordinate)							const;
+	void			setBlockType(const Coordinate& coordinate, const int& blockType);
+	int				getBlockType(const Coordinate& coordinate)						const;
+
+	virtual void	generateObstacle()													  = 0;
+	virtual int		getBufferBlockType(const Coordinate& coordinate)				const = 0;
+	virtual void	clearBuffer()														  = 0;
+	virtual void	placeObstacle()														  = 0;
 
 	enum BlockType
 	{
@@ -33,6 +34,13 @@ public:
 		TREE,
 		CAR
 	};
+
+protected:
+	static const int	FIELD_HEIGHT = 30;
+	static const int	FIELD_WIDTH = 30;
+
+	int raceField_[FIELD_HEIGHT][FIELD_WIDTH];
+	int buffer_[FIELD_WIDTH];
 };
 
 #endif
