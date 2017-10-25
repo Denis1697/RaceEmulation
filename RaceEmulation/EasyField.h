@@ -10,14 +10,15 @@ public:
 	int		getWidth()														const;
 	void	generateObstacle();
 	void	draw()															const;
+	void	drawBlock(const int& x, const int& y)							const;
 	int		getBlockType(const int& x, const int& y)						const;
 	void	setBlockType(const int& x, const int& y, const int& blockType);
 	int		getBufferBlockType(const int& x)								const;
 	void	clearBuffer();
 	void	placeObstacle();
 private:
-	static const int	FIELD_HEIGHT = 13;
-	static const int	FIELD_WIDTH = 35;
+	static const int	FIELD_HEIGHT = 20;
+	static const int	FIELD_WIDTH = 30;
 	static const int	OBSTACLES_NO = 3;
 
 	int raceField_[FIELD_HEIGHT][FIELD_WIDTH];

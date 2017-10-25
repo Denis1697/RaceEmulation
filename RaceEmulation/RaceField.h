@@ -7,6 +7,7 @@ public:
 	virtual int			getHeight()														const = 0;
 	virtual int			getWidth()														const = 0;
 	virtual void		draw()															const = 0;
+	virtual	void		drawBlock(const int& x, const int& y)							const = 0;
 	virtual void		generateObstacle()													  = 0;
 	virtual void		setBlockType(const int& x, const int& y, const int& blockType)		  = 0;
 	virtual int			getBlockType(const int& x, const int& y)						const = 0;

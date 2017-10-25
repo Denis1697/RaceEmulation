@@ -4,8 +4,9 @@
 class ConsoleHandler
 {
 public:
-	static void setCursorPosition(const HANDLE& handleStdOut, const int& x, const int& y);
+	static void setCursorPosition(const int& x, const int& y);
 	static void setCursorState(bool active);
+	static HANDLE getStdHandle();
 };
 
 #endif

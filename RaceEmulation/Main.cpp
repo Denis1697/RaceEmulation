@@ -2,7 +2,7 @@
 
 void main()
 {
-	srand(static_cast<unsigned int>(0));
+	srand(static_cast<unsigned int>(time(0)));
 
 	RaceField * field = new EasyField();
 	GameProcessor gameProcessor(field);
@@ -14,29 +14,31 @@ void main()
 	
 	ConsoleHandler::setCursorState(false);
 
-	gameProcessor.placePlayerCar();
+	gameProcessor.placePlayerCar(field->getWidth()/2, field->getHeight() - 5);
 
 	while (true)
 	{
 		while (!_kbhit()) 
 		{
-			timer.asyncTime();
 			gameProcessor.makeGameTick();
 
-			ConsoleHandler::setCursorPosition(handleStdOut, 45, 5);
+			ConsoleHandler::setCursorPosition(45, 5);
 			timer.showTime();
-			ConsoleHandler::setCursorPosition(handleStdOut, 45, 6);
+			ConsoleHandler::setCursorPosition(45, 6);
 			gameProcessor.showTraveledDistance();
+			ConsoleHandler::setCursorPosition(45, 7);
+			gameProcessor.showCarSpeed();
 
-			ConsoleHandler::setCursorPosition(handleStdOut, 1, 1);
+			ConsoleHandler::setCursorPosition(1, 1);
 			field->draw();
 		}
 
-		std::flush(cout);
 		int key = _getch();
 
 		bool wasArrowPressed = (key == gameProcessor.DIRECTION_LEFT);
 			wasArrowPressed |= (key == gameProcessor.DIRECTION_RIGHT);
+			wasArrowPressed |= (key == gameProcessor.DIRECTION_UP);
+			wasArrowPressed |= (key == gameProcessor.DIRECTION_DOWN);
 
 		if (wasArrowPressed)
 			gameProcessor.moveCar(key);

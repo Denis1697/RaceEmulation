@@ -61,7 +61,7 @@ EasyField::generateObstacle()
 		}
 	} 
 	else
-		x = rand() % (FIELD_WIDTH - obstacleLength);
+		x = rand() % (FIELD_WIDTH - obstacleLength - 1) + 1;
 
 	for (int i = x; i < x + obstacleLength; i++)
 		buffer_[i] = OBSTACLE;
@@ -70,17 +70,23 @@ EasyField::generateObstacle()
 void 
 EasyField::draw() const
 {
-	cout << endl;
 	for (int j = 0; j < FIELD_HEIGHT; j++)
 	{
-		cout << " ";
 		for (int i = 0; i < FIELD_WIDTH; i++)
 		{
-			char c = static_cast<char>(raceField_[j][i]);
-			cout << c;
+				drawBlock(i, j);
 		}
-		cout << endl;
 	}
+}
+
+void 
+EasyField::drawBlock(const int& x, const int& y) const
+{
+	if (x < 0 || x > FIELD_WIDTH - 1 || y < 0 || y > FIELD_HEIGHT - 1)
+		return;
+
+	ConsoleHandler::setCursorPosition(x + 1, y + 1);
+	cout << static_cast<char>(raceField_[y][x]);
 }
 
 int 
@@ -117,7 +123,8 @@ EasyField::clearBuffer()
 		buffer_[i] = EMPTY;
 }
 
-void EasyField::placeObstacle()
+void 
+EasyField::placeObstacle()
 {
 	generateObstacle();
 
