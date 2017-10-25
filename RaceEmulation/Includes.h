@@ -12,6 +12,8 @@
 #include <thread>
 using namespace std;
 
+#include "Coordinate.h"
+#include "Car.h"
 #include "RaceField.h"
 #include "ComplicatedField.h"
 #include "EasyField.h"

@@ -146,16 +146,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Car.cpp" />
     <ClCompile Include="ComplicatedField.cpp" />
     <ClCompile Include="ConsoleHandler.cpp" />
+    <ClCompile Include="Coordinate.cpp" />
     <ClCompile Include="EasyField.cpp" />
     <ClCompile Include="GameProcessor.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="RaceField.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Car.h" />
     <ClInclude Include="ComplicatedField.h" />
     <ClInclude Include="ConsoleHandler.h" />
+    <ClInclude Include="Coordinate.h" />
     <ClInclude Include="EasyField.h" />
     <ClInclude Include="GameProcessor.h" />
     <ClInclude Include="Includes.h" />
