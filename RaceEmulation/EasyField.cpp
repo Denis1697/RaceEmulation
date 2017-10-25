@@ -16,18 +16,6 @@ EasyField::EasyField()
 	}
 }
 
-int
-EasyField::getHeight() const
-{
-	return FIELD_HEIGHT;
-}
-
-int
-EasyField::getWidth() const
-{
-	return FIELD_WIDTH;
-}
-
 void 
 EasyField::generateObstacle()
 {
@@ -67,49 +55,11 @@ EasyField::generateObstacle()
 		buffer_[i] = OBSTACLE;
 }
 
-void 
-EasyField::draw() const
-{
-	for (int j = 0; j < FIELD_HEIGHT; j++)
-	{
-		for (int i = 0; i < FIELD_WIDTH; i++)
-		{
-				drawBlock(i, j);
-		}
-	}
-}
-
-void 
-EasyField::drawBlock(const int& x, const int& y) const
-{
-	if (x < 0 || x > FIELD_WIDTH - 1 || y < 0 || y > FIELD_HEIGHT - 1)
-		return;
-
-	ConsoleHandler::setCursorPosition(x + 1, y + 1);
-	cout << static_cast<char>(raceField_[y][x]);
-}
-
 int 
-EasyField::getBlockType(const int& x, const int& y) const
+EasyField::getBufferBlockType(const Coordinate& coordinate) const
 {
-	if (x < 0 || x > FIELD_WIDTH - 1 || y < 0 || y > FIELD_HEIGHT - 1)
-		return -1;
+	int x = coordinate.getX();
 
-	return raceField_[y][x];
-}
-
-void 
-EasyField::setBlockType(const int& x, const int& y, const int& blockType)
-{
-	if (x < 0 || x > FIELD_WIDTH - 1 || y < 0 || y > FIELD_HEIGHT - 1 || blockType < 0 || blockType > 255)
-		return;
-
-	raceField_[y][x] = blockType;
-}
-
-int 
-EasyField::getBufferBlockType(const int & x) const
-{
 	if (x < 0 || x > FIELD_WIDTH - 1)
 		return -1;
 
@@ -130,10 +80,10 @@ EasyField::placeObstacle()
 
 	for (int i = 0; i < FIELD_WIDTH; i++)
 	{
-		int bufferBlockType = getBufferBlockType(i);
+		int bufferBlockType = getBufferBlockType({ i, 0 });
 
 		if (bufferBlockType == RaceField::OBSTACLE)
-			setBlockType(i, 0, bufferBlockType);
+			setBlockType({ i, 0 }, bufferBlockType);
 	}
 
 	clearBuffer();
