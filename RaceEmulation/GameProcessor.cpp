@@ -1,17 +1,15 @@
 #include "Includes.h"
-
-GameProcessor::GameProcessor(RaceField * field)
+#include "Car.h"
+GameProcessor::GameProcessor(RaceField * field, Car * car)
 {
 	raceField_ = field;
 
-	topCarX_ = raceField_->getWidth() / 2;
-	topCarY_ = raceField_->getHeight() - 5;
+	if (car == nullptr)
+		car->setCarPartsCoords(getStartingPartsCoordinates());
+
+	car_ = car;
 
 	gameTicksNo_ = 0;
-
-	speedStep_ = 0.1;
-	minCarSpeed_ = 1;
-	currentSpeed_ = 5;
 
 	traveledDistance_ = 0;
 }
@@ -19,21 +17,26 @@ GameProcessor::GameProcessor(RaceField * field)
 bool 
 GameProcessor::isCarCrushed(const int& direction) const
 {
+	vector<Coordinate> parts = car_->getCarPartsCoords();
+
+	int topCarX = parts[Car::CAR_TOP].getX();
+	int topCarY = parts[Car::CAR_TOP].getY();
+
 	switch (direction)
 	{
-	case DIRECTION_UP:
+	case Car::DIRECTION_UP:
 		for (int i = 0; i < 3; i++)
-			if (raceField_->getBlockType(topCarX_ + i - 1, topCarY_ ) == RaceField::OBSTACLE)
+			if (raceField_->getBlockType({ topCarX + i - 1, topCarY}) == RaceField::OBSTACLE)
 				return true;
 		break;
-	case DIRECTION_LEFT:
+	case Car::DIRECTION_LEFT:
 		for (int i = 0; i < 3; i++)
-			if (raceField_->getBlockType(topCarX_ - 2, topCarY_ + i + 1) == RaceField::OBSTACLE)
+			if (raceField_->getBlockType({ topCarX - 1, topCarY + i + 1 }) == RaceField::OBSTACLE)
 				return true;
 		break;
-	case DIRECTION_RIGHT:
+	case Car::DIRECTION_RIGHT:
 		for (int i = 0; i < 3; i++)
-			if (raceField_->getBlockType(topCarX_ + 2, topCarY_ + i + 1) == RaceField::OBSTACLE)
+			if (raceField_->getBlockType({ topCarX + 1, topCarY + i + 1 }) == RaceField::OBSTACLE)
 				return true;
 		break;
 	}		
@@ -41,44 +44,31 @@ GameProcessor::isCarCrushed(const int& direction) const
 	return false;
 }
 
-int 
-GameProcessor::getLeftTopCarX() const
-{
-	return topCarX_;
-}
-
-int 
-GameProcessor::getLeftTopCarY() const
-{
-	return topCarY_;
-}
-
 void
-GameProcessor::placePlayerCar(const int& x, const int& y)
+GameProcessor::placeCar(const vector<Coordinate>& oldPosition)
 {
-	int height = raceField_->getHeight();
-	int width = raceField_->getWidth();
+	raceField_->setBlockType(oldPosition[Car::LEFT_TOP_TIRE],		RaceField::EMPTY);
+	raceField_->setBlockType(oldPosition[Car::LEFT_BOTTOM_TIRE],	RaceField::EMPTY);
+	raceField_->setBlockType(oldPosition[Car::CAR_TOP],				RaceField::EMPTY);
+	raceField_->setBlockType(oldPosition[Car::CAR_TORSO],			RaceField::EMPTY);
+	raceField_->setBlockType(oldPosition[Car::RIGHT_TOP_TIRE],		RaceField::EMPTY);
+	raceField_->setBlockType(oldPosition[Car::RIGHT_BOTTOM_TIRE],	RaceField::EMPTY);
 
-	if (x < 2 || x > width - 2 || y < height / 2 || y > height - 2)
-		return;
+	raceField_->drawBlock(oldPosition[Car::LEFT_TOP_TIRE]);
+	raceField_->drawBlock(oldPosition[Car::LEFT_BOTTOM_TIRE]);
+	raceField_->drawBlock(oldPosition[Car::CAR_TOP]);
+	raceField_->drawBlock(oldPosition[Car::CAR_TORSO]);
+	raceField_->drawBlock(oldPosition[Car::RIGHT_TOP_TIRE]);
+	raceField_->drawBlock(oldPosition[Car::RIGHT_BOTTOM_TIRE]);
 
-	raceField_->setBlockType(topCarX_ - 1,	topCarY_ + 1,	RaceField::EMPTY);
-	raceField_->setBlockType(topCarX_ - 1,	topCarY_ + 3,	RaceField::EMPTY);
-	raceField_->setBlockType(topCarX_,		topCarY_,		RaceField::EMPTY);
-	raceField_->setBlockType(topCarX_,		topCarY_ + 2,	RaceField::EMPTY);
-	raceField_->setBlockType(topCarX_ + 1,	topCarY_ + 1,	RaceField::EMPTY);
-	raceField_->setBlockType(topCarX_ + 1,	topCarY_ + 3,	RaceField::EMPTY);
+	vector<Coordinate> parts = car_->getCarPartsCoords();
 
-	raceField_->setBlockType(x - 1,			y + 1,			RaceField::CAR_TIRE);
-	raceField_->setBlockType(x - 1,			y + 3,			RaceField::CAR_TIRE);
-	raceField_->setBlockType(x,				y,				RaceField::CAR_TOP);
-	raceField_->setBlockType(x,				y + 2,			RaceField::CAR_TORSO);
-	raceField_->setBlockType(x + 1,			y + 1,			RaceField::CAR_TIRE);
-	raceField_->setBlockType(x + 1,			y + 3,			RaceField::CAR_TIRE);
-
-
-	topCarX_ = x;
-	topCarY_ = y;
+	raceField_->setBlockType(parts[Car::LEFT_TOP_TIRE],		RaceField::CAR_TIRE);
+	raceField_->setBlockType(parts[Car::LEFT_BOTTOM_TIRE],	RaceField::CAR_TIRE);
+	raceField_->setBlockType(parts[Car::CAR_TOP],			RaceField::CAR_TOP);
+	raceField_->setBlockType(parts[Car::CAR_TORSO],			RaceField::CAR_TORSO);
+	raceField_->setBlockType(parts[Car::RIGHT_TOP_TIRE],	RaceField::CAR_TIRE);
+	raceField_->setBlockType(parts[Car::RIGHT_BOTTOM_TIRE],	RaceField::CAR_TIRE);
 }
 
 void
@@ -92,9 +82,9 @@ GameProcessor::makeGameTick()
 	{
 		for (int i = 0; i < width; i++)
 		{
-			
-			int upperBlockType = raceField_->getBlockType(i, j - 1);
-			int currentBlockType = raceField_->getBlockType(i, j);
+
+			int upperBlockType = raceField_->getBlockType({ i, j - 1 });
+			int currentBlockType = raceField_->getBlockType({ i, j });
 
 			bool isItCar = (upperBlockType == RaceField::CAR_TIRE);
 			isItCar |= (upperBlockType == RaceField::CAR_TORSO);
@@ -104,7 +94,7 @@ GameProcessor::makeGameTick()
 			isItCar |= (currentBlockType == RaceField::CAR_TOP);
 
 			if (!isItCar)
-				raceField_->setBlockType(i, j, upperBlockType);
+				raceField_->setBlockType({ i, j }, upperBlockType);
 		}
 	}
 
@@ -117,15 +107,15 @@ GameProcessor::makeGameTick()
 	}
 	else
 		for (int i = 1; i < width-1; i++)
-			raceField_->setBlockType(i, 0, RaceField::EMPTY);
+			raceField_->setBlockType({ i, 0 }, RaceField::EMPTY);
 
-	if (isCarCrushed(DIRECTION_UP))
+	if (isCarCrushed(Car::DIRECTION_UP))
 		gameOver();
 
 	gameTicksNo_++;
 	traveledDistance_ = gameTicksNo_;
 	
-	Sleep(1000/static_cast<int>(currentSpeed_));
+	Sleep(1000/static_cast<int>(car_->getCurrentSpeed()));
 }
 
 void 
@@ -138,60 +128,28 @@ GameProcessor::gameOver() const
 }
 
 void 
-GameProcessor::moveCar(const int& direction)
+GameProcessor::processCarMove(const int& direction)
 {
-	int dX = 0;
+	vector<Coordinate> parts = car_->getCarPartsCoords();
+	vector<Coordinate> oldParts(6);
 
-	switch (direction)
+	for (int i = 0; i < 6; i++)
 	{
-	case DIRECTION_LEFT:
-		if (topCarX_ - 1 == 1)
-			return;
-
-		dX = -1;
-		break;
-	case DIRECTION_RIGHT:
-		if (topCarX_ + 1 == raceField_->getWidth() - 2)
-			return;
-
-		dX = 1;
-		break;
-	case DIRECTION_UP:
-		currentSpeed_ += speedStep_;
-		break;
-	case DIRECTION_DOWN:
-		currentSpeed_ -= speedStep_;
-
-		if (currentSpeed_ <= minCarSpeed_)
-			currentSpeed_ = minCarSpeed_;
-
-		break;
+		oldParts[i].setX(parts[i].getX());
+		oldParts[i].setY(parts[i].getY());
 	}
+	
+	car_->moveCar(direction, raceField_->getWidth(), raceField_->getHeight());
 
 	if (isCarCrushed(direction))
 		gameOver();
 	else
-		placePlayerCar(topCarX_ + dX, topCarY_);
-
-	drawCar();
-}
-
-void 
-GameProcessor::placeObstacle()
-{
-	int width = raceField_->getWidth();
-
-	raceField_->generateObstacle();
-
-	for (int i = 0; i < width; i++)
 	{
-		int bufferBlockType = raceField_->getBufferBlockType(i);
+		placeCar(oldParts); 
 
-		if (bufferBlockType == RaceField::OBSTACLE)
-			raceField_->setBlockType(i, 0, bufferBlockType);
+		drawCar(); 
 	}
 
-	raceField_->clearBuffer();
 }
 
 void 
@@ -200,11 +158,30 @@ GameProcessor::showTraveledDistance() const
 	cout << "Traveled distance: " << traveledDistance_ << " m";
 }
 
-void 
-GameProcessor::showCarSpeed() const
+vector<Coordinate> 
+GameProcessor::getStartingPartsCoordinates() const
 {
-	cout << "Car speed: " << setw(3) <<  currentSpeed_ << " m/s";
+	vector<Coordinate> parts(6);
 
+	int topX = raceField_->getWidth() / 2;
+	int topY = raceField_->getHeight() - 5;
+
+	parts[Car::LEFT_TOP_TIRE].setX(topX-1);
+	parts[Car::LEFT_TOP_TIRE].setY(topY+1);
+	parts[Car::LEFT_BOTTOM_TIRE].setX(topX - 1);
+	parts[Car::LEFT_BOTTOM_TIRE].setY(topY + 3);
+
+	parts[Car::CAR_TOP].setX(topX);
+	parts[Car::CAR_TOP].setY(topY);
+	parts[Car::CAR_TORSO].setX(topX);
+	parts[Car::CAR_TORSO].setY(topY + 2);
+
+	parts[Car::LEFT_TOP_TIRE].setX(topX + 1);
+	parts[Car::LEFT_TOP_TIRE].setY(topY + 1);
+	parts[Car::LEFT_BOTTOM_TIRE].setX(topX + 1);
+	parts[Car::LEFT_BOTTOM_TIRE].setY(topY + 3);
+
+	return parts;
 }
 
 void 
@@ -214,24 +191,25 @@ GameProcessor::alternateBorders() const
 
 	if (gameTicksNo_ % 2 == 0)
 	{
-		raceField_->setBlockType(0, 0, RaceField::BORDER_TWO);
-		raceField_->setBlockType(width - 1, 0, RaceField::BORDER_TWO);
+		raceField_->setBlockType({ 0,0 }, RaceField::BORDER_TWO);
+		raceField_->setBlockType({ width - 1, 0 }, RaceField::BORDER_TWO);
 	}
 	else
 	{
-		raceField_->setBlockType(0, 0, RaceField::BORDER_ONE);
-		raceField_->setBlockType(width - 1, 0, RaceField::BORDER_ONE);
+		raceField_->setBlockType({ 0,0 }, RaceField::BORDER_ONE);
+		raceField_->setBlockType({ width - 1, 0 }, RaceField::BORDER_ONE);
 	}
 }
 
-void GameProcessor::drawCar() const
+void
+GameProcessor::drawCar() const
 {
-	raceField_->drawBlock(topCarX_ - 1, topCarY_ + 1);
-	raceField_->drawBlock(topCarX_ - 1, topCarY_ + 3);
+	vector<Coordinate> parts = car_->getCarPartsCoords();
 
-	raceField_->drawBlock(topCarX_, topCarY_);
-	raceField_->drawBlock(topCarX_, topCarY_ + 2);
-
-	raceField_->drawBlock(topCarX_ + 1, topCarY_ + 1);
-	raceField_->drawBlock(topCarX_ + 1, topCarY_ + 3);
+	raceField_->drawBlock(parts[Car::LEFT_TOP_TIRE]);
+	raceField_->drawBlock(parts[Car::LEFT_BOTTOM_TIRE]);
+	raceField_->drawBlock(parts[Car::CAR_TOP]);
+	raceField_->drawBlock(parts[Car::CAR_TORSO]);
+	raceField_->drawBlock(parts[Car::RIGHT_TOP_TIRE]);
+	raceField_->drawBlock(parts[Car::RIGHT_BOTTOM_TIRE]);
 }
