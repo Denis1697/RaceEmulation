@@ -2,50 +2,67 @@
 
 void main()
 {
-	ConsoleHandler::setCursorState(false);
 	srand(static_cast<unsigned int>(time(0)));
 
-	Timer timer;
-	timer.start();
+	GameProcessor gameProcessor;
 
+	RaceField * field;	
+	if (gameProcessor.startingMode() == 1)
+		field = new EasyField();
+	else
+		field = new ComplicatedField();
 
-	RaceField * field = new ComplicatedField();
 	int width = field->getWidth();
 	int height = field->getHeight();
+	Coordinate topCarCoord(width / 2, height - 5);
 
-	Coordinate top(width / 2, height - 5);
-	Car * car = new Car(top);
-	GameProcessor gameProcessor(field, car);
-	
+
+	Car * car = new Car(topCarCoord);
+	Timer timer;
+
+	gameProcessor.setRaceField(field);
+	gameProcessor.setCar(car);
+	gameProcessor.setTimer(&timer);	
+
 	gameProcessor.placeCar(car->getCarPartsCoords());
+
+	timer.start();
+
+	ConsoleHelper::setCursorState(false);
 
 	while (true)
 	{
 
-		while (!_kbhit())
+		while (_kbhit() == 0)
 		{
-			ConsoleHandler::setCursorPosition(45, 5);
-			timer.showTime();
-			ConsoleHandler::setCursorPosition(45, 6);
-			gameProcessor.showTraveledDistance();
-			ConsoleHandler::setCursorPosition(45, 7);
-			car->showCarSpeed();
-
+			gameProcessor.showStatistics();
 			gameProcessor.makeGameTick();
 			field->draw();
 		}
 
 		int key = _getch();
 
-		bool wasArrowPressed = (key == Car::DIRECTION_LEFT);
-		wasArrowPressed |= (key == Car::DIRECTION_RIGHT);
-		wasArrowPressed |= (key == Car::DIRECTION_UP);
-		wasArrowPressed |= (key == Car::DIRECTION_DOWN);
-
+		bool wasArrowPressed  = (key == Car::DIRECTION_LEFT);
+			 wasArrowPressed |= (key == Car::DIRECTION_RIGHT);
+			 wasArrowPressed |= (key == Car::DIRECTION_UP);
+			 wasArrowPressed |= (key == Car::DIRECTION_DOWN);
+			 
 		if (wasArrowPressed)
 		{
 			gameProcessor.processCarMove(key);
 			gameProcessor.drawCar();
 		}
+		else 
+		{
+			switch (key)
+			{
+			case GameProcessor::SPACE:
+				gameProcessor.setPause();
+				break;
+			case GameProcessor::ESCAPE:
+				gameProcessor.leaveTheGame();
+			}
+		}
 	}
+
 }
