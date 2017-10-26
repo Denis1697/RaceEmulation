@@ -17,7 +17,7 @@ RaceField::drawBlock(const Coordinate& coordinate) const
 	if (x < 0 || x > FIELD_WIDTH - 1 || y < 0 || y > FIELD_HEIGHT - 1)
 		return;
 
-	ConsoleHandler::setCursorPosition(x + 1, y + 1);
+	ConsoleHelper::setCursorPosition({ x + 1, y + 1 });
 	cout << static_cast<char>(raceField_[y][x]);
 }
 
