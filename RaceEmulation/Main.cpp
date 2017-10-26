@@ -56,7 +56,7 @@ void main()
 		{
 			switch (key)
 			{
-			case GameProcessor::SPACE:
+			case GameProcessor::ENTER:
 				gameProcessor.setPause();
 				break;
 			case GameProcessor::ESCAPE:
