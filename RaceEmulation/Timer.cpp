@@ -38,9 +38,9 @@ void Timer::calculateTime()
 
 	int estimateTime = newTime - currentTime_;
 
-	seconds_ = estimateTime % 60;
-	minutes_ = estimateTime / 60;
-	hours_ = minutes_ / 60;
+	seconds_ = estimateTime % SECONDS_PER_MINUTE;
+	minutes_ = estimateTime / SECONDS_PER_MINUTE;
+	hours_ = minutes_ / MINUTES_PER_SECONDS;
 }
 
 

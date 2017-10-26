@@ -29,20 +29,23 @@ GameProcessor::isCarCrushed(const int& direction) const
 	int topCarX = parts[Car::CAR_TOP].getX();
 	int topCarY = parts[Car::CAR_TOP].getY();
 
+	int carWidth = 3;
+	int carHeight = 3;
+
 	switch (direction)
 	{
 	case Car::DIRECTION_UP:
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < carWidth; i++)
 			if (raceField_->getBlockType({ topCarX + i - 1, topCarY}) == RaceField::OBSTACLE)
 				return true;
 		break;
 	case Car::DIRECTION_LEFT:
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < carHeight; i++)
 			if (raceField_->getBlockType({ topCarX - 1, topCarY + i + 1 }) == RaceField::OBSTACLE)
 				return true;
 		break;
 	case Car::DIRECTION_RIGHT:
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < carHeight; i++)
 			if (raceField_->getBlockType({ topCarX + 1, topCarY + i + 1 }) == RaceField::OBSTACLE)
 				return true;
 		break;
@@ -130,16 +133,23 @@ GameProcessor::makeGameTick()
 	gameTicksNo_++;
 	traveledDistance_ = gameTicksNo_;
 	
-	Sleep(1000/static_cast<int>(car_->getCurrentSpeed()));
+	int drawSpeed = ONE_SECOND / static_cast<int>(car_->getCurrentSpeed());
+
+	Sleep(drawSpeed);
 }
 
 void 
 GameProcessor::gameOver() const
 {
-	ConsoleHelper::drawWindow({ 44, 9 }, { 75, 11 });
-	ConsoleHelper::setCursorPosition({ 45, 10 });
+	int leftTopX = 44;
+	int leftTopY = 9;
+	Coordinate leftTop(leftTopX, leftTopY);
+	Coordinate rightBot(leftTopX + 31, leftTopY + 2);
+
+	ConsoleHelper::drawWindow(leftTop, rightBot);
+	ConsoleHelper::setCursorPosition({ leftTopX + 1, leftTopY + 1 });
 	cout << "Sorry, your car has crushed...";
-	ConsoleHelper::setCursorPosition({ 45, 13 });
+	ConsoleHelper::setCursorPosition({ leftTopX + 1, leftTopY + 4 });
 	system("pause");
 	exit(0);
 }
@@ -147,10 +157,12 @@ GameProcessor::gameOver() const
 void 
 GameProcessor::processCarMove(const int& direction)
 {
-	vector<Coordinate> parts = car_->getCarPartsCoords();
-	vector<Coordinate> oldParts(6);
+	int partsNo = car_->getPartsCount();
 
-	for (int i = 0; i < 6; i++)
+	vector<Coordinate> parts = car_->getCarPartsCoords();
+	vector<Coordinate> oldParts(partsNo);
+
+	for (int i = 0; i < partsNo; i++)
 	{
 		oldParts[i].setX(parts[i].getX());
 		oldParts[i].setY(parts[i].getY());
@@ -177,14 +189,19 @@ GameProcessor::showTraveledDistance() const
 int 
 GameProcessor::startingMode() const
 {
-	ConsoleHelper::drawWindow({ 24, 9 }, { 40, 14 });
-	ConsoleHelper::setCursorPosition({ 25, 10 });
+	int leftTopX = 24;
+	int leftTopY = 9;
+	Coordinate leftTop(leftTopX, leftTopY);
+	Coordinate rightBot(leftTopX + 16, leftTopY + 5);
+
+	ConsoleHelper::drawWindow(leftTop, rightBot);
+	ConsoleHelper::setCursorPosition({ leftTopX+1, leftTopY + 1 });
 	cout << "Select the mode";
-	ConsoleHelper::setCursorPosition({ 25, 11 });
+	ConsoleHelper::setCursorPosition({ leftTopX + 1, leftTopY + 2 });
 	cout << "1. Obstacles";
-	ConsoleHelper::setCursorPosition({ 25, 12 });
+	ConsoleHelper::setCursorPosition({ leftTopX + 1, leftTopY + 3 });
 	cout << "2. Cars";
-	ConsoleHelper::setCursorPosition({ 25, 13 });
+	ConsoleHelper::setCursorPosition({ leftTopX + 1, leftTopY + 4 });
 	cout << "Answer: ";
 
 	int answer;
@@ -193,11 +210,11 @@ GameProcessor::startingMode() const
 
 	while (answer < 1 || answer > 2)
 	{
-		ConsoleHelper::setCursorPosition({ 33, 13 });
+		ConsoleHelper::setCursorPosition({ leftTopX + 9, leftTopY + 4 });
 		cin >> answer;
 	}
 	
-	ConsoleHelper::clearWindow({ 24, 9 }, { 40, 14 });
+	ConsoleHelper::clearWindow(leftTop, rightBot);
 
 	return answer;
 }
@@ -223,41 +240,57 @@ GameProcessor::setTimer(Timer * timer)
 void 
 GameProcessor::showStatistics() const
 {
-	ConsoleHelper::drawWindow({ 44, 4 }, { 70, 8 });
-	ConsoleHelper::setCursorPosition({ 45, 5 });
+	int leftTopX = 44;
+	int leftTopY = 4;
+	Coordinate leftTop(leftTopX, leftTopY);
+	Coordinate rightBot(leftTopX + 26, leftTopY + 4);
+
+	ConsoleHelper::drawWindow(leftTop, rightBot);
+
+	ConsoleHelper::setCursorPosition({ leftTopX + 1, leftTopY + 1 });
 	cout << "Time: ";
 	timer_->showTime();
-	ConsoleHelper::setCursorPosition({ 45, 6 });
+	ConsoleHelper::setCursorPosition({ leftTopX + 1, leftTopY + 2 });
 	showTraveledDistance();
-	ConsoleHelper::setCursorPosition({ 45, 7 });
+	ConsoleHelper::setCursorPosition({ leftTopX + 1, leftTopY + 3 });
 	car_->showCarSpeed();
 }
 
 void 
 GameProcessor::setPause() const
 {
-	ConsoleHelper::drawWindow({ 44, 9 }, { 50, 11 });
-	ConsoleHelper::setCursorPosition({ 45, 10 });
+	int leftTopX = 44;
+	int leftTopY = 9;
+	Coordinate leftTop(leftTopX, leftTopY);
+	Coordinate rightBot(leftTopX + 6, leftTopY + 2);
+
+	ConsoleHelper::drawWindow(leftTop, rightBot);
+	ConsoleHelper::setCursorPosition({ leftTopX + 1, leftTopY + 1 });
 	cout << "Pause";
 
-	ConsoleHelper::setCursorPosition({ 45, 13 });
+	ConsoleHelper::setCursorPosition({ leftTopX + 1, leftTopY + 4 });
 	system("pause");
 
-	ConsoleHelper::clearWindow({ 44, 13 }, { 90, 13 });
-	ConsoleHelper::clearWindow({ 44, 9 }, { 50, 11 });
+	ConsoleHelper::clearWindow(leftTop, rightBot);
+	ConsoleHelper::clearWindow({ leftTopX, leftTopY + 4 }, { leftTopX + 50, leftTopY + 4 });
 }
 
 void 
 GameProcessor::leaveTheGame() const
 {
-	ConsoleHelper::drawWindow({ 44, 9 }, { 60, 14 });
-	ConsoleHelper::setCursorPosition({ 45, 10 });
+	int leftTopX = 44;
+	int leftTopY = 9;
+	Coordinate leftTop(leftTopX, leftTopY);
+	Coordinate rightBot(leftTopX + 16, leftTopY + 5);
+
+	ConsoleHelper::drawWindow(leftTop, rightBot);
+	ConsoleHelper::setCursorPosition({ leftTopX + 1, leftTopY + 1 });
 	cout << "Quit?";
-	ConsoleHelper::setCursorPosition({ 45, 11 });
+	ConsoleHelper::setCursorPosition({ leftTopX + 1, leftTopY + 2 });
 	cout << "1. Yes";
-	ConsoleHelper::setCursorPosition({ 45, 12 });
+	ConsoleHelper::setCursorPosition({ leftTopX + 1, leftTopY + 3 });
 	cout << "2. No";
-	ConsoleHelper::setCursorPosition({ 45, 13 });
+	ConsoleHelper::setCursorPosition({ leftTopX + 1, leftTopY + 4 });
 	cout << "Answer: ";
 
 	int answer;
@@ -266,28 +299,29 @@ GameProcessor::leaveTheGame() const
 
 	while (answer < 1 || answer > 2)
 	{
-		ConsoleHelper::setCursorPosition({ 53, 13 });
+		ConsoleHelper::setCursorPosition({ leftTopX + 9, leftTopY + 4});
 		cout << "  ";
-		ConsoleHelper::setCursorPosition({ 53, 13 });
+		ConsoleHelper::setCursorPosition({ leftTopX + 9, leftTopY + 4 });
 		cin >> answer;
 	}
 
 	if (answer == 1)
 		exit(0);
 
-	ConsoleHelper::clearWindow({ 44, 9 }, { 60, 14 });
+	ConsoleHelper::clearWindow(leftTop, rightBot);
 }
 
 vector<Coordinate> 
 GameProcessor::getStartingPartsCoordinates() const
 {
-	vector<Coordinate> parts(6);
+	int partsNo = car_->getPartsCount();
+	vector<Coordinate> parts(partsNo);
 
 	int topX = raceField_->getWidth() / 2;
 	int topY = raceField_->getHeight() - 5;
 
-	parts[Car::LEFT_TOP_TIRE].setX(topX-1);
-	parts[Car::LEFT_TOP_TIRE].setY(topY+1);
+	parts[Car::LEFT_TOP_TIRE].setX(topX - 1);
+	parts[Car::LEFT_TOP_TIRE].setY(topY + 1);
 	parts[Car::LEFT_BOTTOM_TIRE].setX(topX - 1);
 	parts[Car::LEFT_BOTTOM_TIRE].setY(topY + 3);
 

@@ -7,12 +7,14 @@ public:
 	ComplicatedField();
 
 	void	generateObstacle(); 
+	int		getBufferBlockType(const Coordinate& coordinate)	const;
 	void	clearBuffer();
 	void	placeObstacle();
-	int		getBufferBlockType(const Coordinate& coordinate)	const;
 
 private:
-	int buffer_[4][FIELD_WIDTH];
+	static const int BUFFER_HEIGHT = 4;
+
+	int buffer_[BUFFER_HEIGHT][FIELD_WIDTH];
 
 };
 

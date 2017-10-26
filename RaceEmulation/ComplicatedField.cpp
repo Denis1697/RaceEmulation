@@ -86,7 +86,7 @@ ComplicatedField::getBufferBlockType(const Coordinate & coordinate) const
 	int x = coordinate.getX();
 	int y = coordinate.getY();
 
-	if (x < 0 || x > FIELD_WIDTH - 1 || y < 0 || y > FIELD_HEIGHT - 1)
+	if (x < 0 || x > FIELD_WIDTH - 1 || y < 0 || y > BUFFER_HEIGHT - 1)
 		return -1;
 
 	return buffer_[y][x];
@@ -95,7 +95,7 @@ ComplicatedField::getBufferBlockType(const Coordinate & coordinate) const
 void 
 ComplicatedField::clearBuffer()
 {
-	for (int j = 0; j < 4; j++)
+	for (int j = 0; j < BUFFER_HEIGHT; j++)
 	{
 		for (int i = 0; i < FIELD_WIDTH; i++)
 		{
@@ -109,7 +109,7 @@ ComplicatedField::placeObstacle()
 {
 	generateObstacle();
 
-	for(int j = 0; j < 4; j++)
+	for(int j = 0; j < BUFFER_HEIGHT; j++)
 	{
 		for (int i = 0; i < FIELD_WIDTH; i++)
 		{

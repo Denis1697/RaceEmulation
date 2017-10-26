@@ -2,7 +2,7 @@
 
 Car::Car(const Coordinate& carTop)
 {
-	carParts_ = new vector<Coordinate>(6);
+	carParts_ = new vector<Coordinate>(PARTS_COUNT);
 	int x = carTop.getX();
 	int y = carTop.getY();
 
@@ -57,7 +57,7 @@ Car::moveCar(const int& direction, const int& fieldWidth, const int& fieldHeight
 		break;
 	}
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < PARTS_COUNT; i++)
 		carParts_->at(i).setX(carParts_->at(i).getX() + dX);
 }
 
@@ -81,6 +81,12 @@ Car::getCurrentSpeed()
 void Car::setCarPartsCoords(const vector<Coordinate>& parts)
 {
 	*carParts_ = parts;
+}
+
+int 
+Car::getPartsCount() const
+{
+	return PARTS_COUNT;
 }
 
 vector<Coordinate>&

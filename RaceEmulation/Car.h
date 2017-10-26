@@ -13,6 +13,7 @@ public:
 	double					getSpeedStep()									const;
 	double					getCurrentSpeed();
 	void					setCarPartsCoords(const vector<Coordinate>& parts);
+	int						getPartsCount()									const;
 
 	enum Direction
 	{
@@ -33,6 +34,8 @@ public:
 
 private:
 	vector<Coordinate>* carParts_;
+
+	const int PARTS_COUNT = 6;
 
 	double minCarSpeed_;
 	double speedStep_;

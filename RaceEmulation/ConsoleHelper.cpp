@@ -35,29 +35,29 @@ ConsoleHelper::drawWindow(const Coordinate & leftTopCoord, const Coordinate & ri
 	int dY = y2 - y1;
 
 	setCursorPosition(leftTopCoord);
-	cout << static_cast<char>(201);
+	cout << static_cast<char>(LEFT_TOP_CORNER);
 	setCursorPosition({ x2, y1 });
-	cout << static_cast<char>(187);
+	cout << static_cast<char>(RIGHT_TOP_CORNER);
 	setCursorPosition(rightBottomCoord);
-	cout << static_cast<char>(188);
+	cout << static_cast<char>(RIGHT_BOTTOM_CORNER);
 	setCursorPosition({ x1, y2 });
-	cout << static_cast<char>(200);
+	cout << static_cast<char>(LEFT_BOTTOM_CORNER);
 
 
 	for (int i = 0; i < dX-1; i++)
 	{
 		setCursorPosition({ x1 + i + 1, y1 });
-		cout << static_cast<char>(205);
+		cout << static_cast<char>(HORIZONTAL_PART);
 		setCursorPosition({ x1 + i + 1, y2 });
-		cout << static_cast<char>(205);
+		cout << static_cast<char>(HORIZONTAL_PART);
 	}
 
 	for (int i = 0; i < dY-1; i++)
 	{
 		setCursorPosition({ x1, y1 + i + 1 });
-		cout << static_cast<char>(186);
+		cout << static_cast<char>(VERTICAL_PART);
 		setCursorPosition({ x2, y1 + i + 1 });
-		cout << static_cast<char>(186);
+		cout << static_cast<char>(VERTICAL_PART);
 	}
 }
 
