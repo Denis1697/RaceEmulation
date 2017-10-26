@@ -20,13 +20,14 @@ void
 ComplicatedField::generateObstacle()
 {
 	int partOfRoad = rand() % 2 + 1;
+	int seed = rand() % 4 - 2;
 	int headX;
-	int headY;
+	int headY; 
 
 	switch (partOfRoad)
 	{
 	case 1:
-		headX = 5;
+		headX = 4 + seed;
 		headY = 3;
 
 		buffer_[headY - 2][headX] = OBSTACLE;
@@ -36,8 +37,37 @@ ComplicatedField::generateObstacle()
 		buffer_[headY - 3][headX + 1] = OBSTACLE;
 		break;
 	case 2:
-		headX = FIELD_WIDTH - 5;
+		headX = FIELD_WIDTH - 4 + seed;
 		headY = 0; 
+
+		buffer_[headY + 2][headX] = OBSTACLE;
+		buffer_[headY + 1][headX - 1] = OBSTACLE;
+		buffer_[headY + 3][headX - 1] = OBSTACLE;
+		buffer_[headY + 1][headX + 1] = OBSTACLE;
+		buffer_[headY + 3][headX + 1] = OBSTACLE;
+		break;
+	}
+
+	buffer_[headY][headX] = OBSTACLE;
+
+	partOfRoad = rand() % 2 + 1;
+	seed = rand() % 6 - 3;
+
+	switch (partOfRoad)
+	{
+	case 1:
+		headX = 11 + seed;
+		headY = 3;
+
+		buffer_[headY - 2][headX] = OBSTACLE;
+		buffer_[headY - 1][headX - 1] = OBSTACLE;
+		buffer_[headY - 3][headX - 1] = OBSTACLE;
+		buffer_[headY - 1][headX + 1] = OBSTACLE;
+		buffer_[headY - 3][headX + 1] = OBSTACLE;
+		break;
+	case 2:
+		headX = FIELD_WIDTH - 11 + seed;
+		headY = 0;
 
 		buffer_[headY + 2][headX] = OBSTACLE;
 		buffer_[headY + 1][headX - 1] = OBSTACLE;
@@ -50,7 +80,8 @@ ComplicatedField::generateObstacle()
 	buffer_[headY][headX] = OBSTACLE;
 }
 
-int ComplicatedField::getBufferBlockType(const Coordinate & coordinate) const
+int 
+ComplicatedField::getBufferBlockType(const Coordinate & coordinate) const
 {
 	int x = coordinate.getX();
 	int y = coordinate.getY();
@@ -61,7 +92,8 @@ int ComplicatedField::getBufferBlockType(const Coordinate & coordinate) const
 	return buffer_[y][x];
 }
 
-void ComplicatedField::clearBuffer()
+void 
+ComplicatedField::clearBuffer()
 {
 	for (int j = 0; j < 4; j++)
 	{
