@@ -36,7 +36,7 @@ ComplicatedField::generateObstacle()
 		buffer_[headY - 3][headX + 1] = OBSTACLE;
 		break;
 	case 2:
-		headX = FIELD_WIDTH - 8;
+		headX = FIELD_WIDTH - 5;
 		headY = 0; 
 
 		buffer_[headY + 2][headX] = OBSTACLE;
