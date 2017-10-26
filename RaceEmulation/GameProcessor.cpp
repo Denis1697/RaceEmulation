@@ -1,17 +1,24 @@
 #include "Includes.h"
 #include "Car.h"
-GameProcessor::GameProcessor(RaceField * field, Car * car)
+GameProcessor::GameProcessor(RaceField * field, Car * car, Timer * timer)
 {
 	raceField_ = field;
-
-	if (car == nullptr)
-		car->setCarPartsCoords(getStartingPartsCoordinates());
-
 	car_ = car;
-
+	timer_ = timer;
 	gameTicksNo_ = 0;
-
 	traveledDistance_ = 0;
+}
+
+GameProcessor::~GameProcessor()
+{
+	delete car_;
+	car_ = nullptr;
+
+	delete raceField_;
+	raceField_ = nullptr;
+
+	delete timer_;
+	timer_ = nullptr;
 }
 
 bool 
@@ -100,10 +107,18 @@ GameProcessor::makeGameTick()
 
 	alternateBorders();
 
-	if (gameTicksNo_ % 5 == 0)
+	bool isComplicated = (strcmp(typeid(*raceField_).name(), typeid(ComplicatedField).name()) == 0);
+	bool isEasy = (strcmp(typeid(*raceField_).name(), typeid(EasyField).name()) == 0);
+
+	if (gameTicksNo_ % 8 == 0)
 	{
-		raceField_->placeObstacle();
-		raceField_->placeObstacle();
+		if (isComplicated)
+			raceField_->placeObstacle();
+		else if (isEasy)
+		{
+			raceField_->placeObstacle();
+			raceField_->placeObstacle();
+		}
 	}
 	else
 		for (int i = 1; i < width-1; i++)
@@ -121,9 +136,11 @@ GameProcessor::makeGameTick()
 void 
 GameProcessor::gameOver() const
 {
+	ConsoleHelper::drawWindow({ 44, 9 }, { 75, 11 });
+	ConsoleHelper::setCursorPosition({ 45, 10 });
+	cout << "Sorry, your car has crushed...";
+	ConsoleHelper::setCursorPosition({ 45, 13 });
 	system("pause");
-	system("cls");
-	cout << "Sorry, you are dead!";
 	exit(0);
 }
 
@@ -149,13 +166,116 @@ GameProcessor::processCarMove(const int& direction)
 
 		drawCar(); 
 	}
-
 }
 
 void 
 GameProcessor::showTraveledDistance() const
 {
 	cout << "Traveled distance: " << traveledDistance_ << " m";
+}
+
+int 
+GameProcessor::startingMode() const
+{
+	ConsoleHelper::drawWindow({ 24, 9 }, { 40, 14 });
+	ConsoleHelper::setCursorPosition({ 25, 10 });
+	cout << "Select the mode";
+	ConsoleHelper::setCursorPosition({ 25, 11 });
+	cout << "1. Obstacles";
+	ConsoleHelper::setCursorPosition({ 25, 12 });
+	cout << "2. Cars";
+	ConsoleHelper::setCursorPosition({ 25, 13 });
+	cout << "Answer: ";
+
+	int answer;
+
+	cin >> answer;
+
+	while (answer < 1 || answer > 2)
+	{
+		ConsoleHelper::setCursorPosition({ 33, 13 });
+		cin >> answer;
+	}
+	
+	ConsoleHelper::clearWindow({ 24, 9 }, { 40, 14 });
+
+	return answer;
+}
+
+void 
+GameProcessor::setCar(Car * car)
+{
+	car_ = car;
+}
+
+void 
+GameProcessor::setRaceField(RaceField * raceField)
+{
+	raceField_ = raceField;
+}
+
+void 
+GameProcessor::setTimer(Timer * timer)
+{
+	timer_ = timer;
+}
+
+void 
+GameProcessor::showStatistics() const
+{
+	ConsoleHelper::drawWindow({ 44, 4 }, { 70, 8 });
+	ConsoleHelper::setCursorPosition({ 45, 5 });
+	cout << "Time: ";
+	timer_->showTime();
+	ConsoleHelper::setCursorPosition({ 45, 6 });
+	showTraveledDistance();
+	ConsoleHelper::setCursorPosition({ 45, 7 });
+	car_->showCarSpeed();
+}
+
+void 
+GameProcessor::setPause() const
+{
+	ConsoleHelper::drawWindow({ 44, 9 }, { 50, 11 });
+	ConsoleHelper::setCursorPosition({ 45, 10 });
+	cout << "Pause";
+
+	ConsoleHelper::setCursorPosition({ 45, 13 });
+	system("pause");
+
+	ConsoleHelper::clearWindow({ 44, 13 }, { 90, 13 });
+	ConsoleHelper::clearWindow({ 44, 9 }, { 50, 11 });
+}
+
+void 
+GameProcessor::leaveTheGame() const
+{
+	ConsoleHelper::drawWindow({ 44, 9 }, { 60, 14 });
+	ConsoleHelper::setCursorPosition({ 45, 10 });
+	cout << "Quit?";
+	ConsoleHelper::setCursorPosition({ 45, 11 });
+	cout << "1. Yes";
+	ConsoleHelper::setCursorPosition({ 45, 12 });
+	cout << "2. No";
+	ConsoleHelper::setCursorPosition({ 45, 13 });
+	cout << "Answer: ";
+
+	int answer;
+
+	cin >> answer;
+
+	while (answer < 1 || answer > 2)
+	{
+		ConsoleHelper::setCursorPosition({ 53, 13 });
+		cout << "  ";
+		ConsoleHelper::setCursorPosition({ 53, 13 });
+		cin >> answer;
+	}
+
+	if (answer == 1)
+		exit(0);
+
+	ConsoleHelper::clearWindow({ 44, 9 }, { 60, 14 });
 }
 
 vector<Coordinate> 
