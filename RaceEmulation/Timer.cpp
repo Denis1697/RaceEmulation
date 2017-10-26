@@ -11,11 +11,11 @@ Timer::Timer()
 void 
 Timer::start()
 {
-	currentTime_ = static_cast<int>(time(0));
+		currentTime_ = static_cast<int>(time(0));
 }
 
 void 
-Timer::stop()
+Timer::pause()
 {
 	currentTime_ = 0;
 	seconds_ = 0;
@@ -29,7 +29,7 @@ Timer::showTime()
 	calculateTime();
 
 	cout << setw(2);
-	cout << hours_ << ":" << minutes_ << ":" << seconds_;
+	cout << hours_ << ":" << setw(2) << minutes_ << ":" << setw(2) << seconds_;
 }
 
 void Timer::calculateTime()
@@ -42,3 +42,5 @@ void Timer::calculateTime()
 	minutes_ = estimateTime / 60;
 	hours_ = minutes_ / 60;
 }
+
+
