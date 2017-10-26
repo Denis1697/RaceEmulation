@@ -36,9 +36,7 @@ private:
 
 	double minCarSpeed_;
 	double speedStep_;
-	double currentSpeed_;
-
-	
+	double currentSpeed_;	
 };
 
 #endif
