@@ -10,7 +10,6 @@ public:
 	void	pause();
 	void	showTime();
 	void	calculateTime();
-
 private:
 	int		currentTime_;
 	int		seconds_;

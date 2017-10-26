@@ -7,10 +7,12 @@ public:
 	static void		setCursorPosition(const Coordinate& position);
 	static void		setCursorState(const bool& active);
 	static HANDLE	getStdHandle();
-	static void		drawWindow(const Coordinate& leftTopCoord, const Coordinate& rightBottomCoord);
-	static void		clearWindow(const Coordinate& leftTopCoord, const Coordinate& rightBottomCoord);
+	static void		drawWindow(const Coordinate& leftTopCoord, 
+							   const Coordinate& rightBottomCoord);
+	static void		clearWindow(const Coordinate& leftTopCoord, 
+								const Coordinate& rightBottomCoord);
 private:
-	enum WindowParts
+	enum WindowPart
 	{
 		LEFT_TOP_CORNER		= 201,
 		RIGHT_TOP_CORNER	= 187,

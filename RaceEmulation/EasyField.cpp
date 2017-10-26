@@ -2,10 +2,8 @@
 
 EasyField::EasyField()
 {
-	for (int j = 0; j < FIELD_HEIGHT; j++)
-	{
-		for (int i = 0; i < FIELD_WIDTH; i++)
-		{
+	for (int j = 0; j < FIELD_HEIGHT; j++) {
+		for (int i = 0; i < FIELD_WIDTH; i++) {
 			BlockType currentBorder = (j % 2 == 0 ? BORDER_ONE : BORDER_TWO);
 
 			if (i == 0 || i == FIELD_WIDTH - 1)
@@ -20,32 +18,22 @@ void
 EasyField::generateObstacle()
 {
 	int obstacleChoice = rand() % OBSTACLES_NO;
-	int x, obstacleLength = 0;
+	int obstacleLength = 0;
 
-	switch (obstacleChoice)
-	{
-	case STONE:
-		obstacleLength = 1;
-		break;
-	case LOG:
-		obstacleLength = 3;
-		break;
-	case TREE:
-		obstacleLength = 5;
-		break;
+	switch (obstacleChoice) {
+		case STONE :	obstacleLength = 1;	break;
+		case LOG :		obstacleLength = 3;	break;
+		case TREE :		obstacleLength = 5;	break;
 	}
 	
-	if (obstacleChoice == TREE && FIELD_WIDTH < 10)
-	{
+	int x;
+
+	if (obstacleChoice == TREE && FIELD_WIDTH < 10) {
 		int choice = rand() % 2;
 
-		switch (choice)
-		{
-		case 0:
-			x = 1;
-			break;
-		case 1:
-			x = 4;
+		switch (choice) {
+			case 0 :	x = 1;	break;
+			case 1 :	x = 4;	break;
 		}
 	} 
 	else
@@ -78,8 +66,7 @@ EasyField::placeObstacle()
 {
 	generateObstacle();
 
-	for (int i = 0; i < FIELD_WIDTH; i++)
-	{
+	for (int i = 0; i < FIELD_WIDTH; i++) {
 		int bufferBlockType = getBufferBlockType({ i, 0 });
 
 		if (bufferBlockType == RaceField::OBSTACLE)

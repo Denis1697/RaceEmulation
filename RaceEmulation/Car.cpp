@@ -22,39 +22,38 @@ Car::Car(const Coordinate& carTop)
 	carParts_->at(Car::RIGHT_BOTTOM_TIRE).setY(y + 3);
 
 	speedStep_ = 0.1;
-	minCarSpeed_ = 1;
-	currentSpeed_ = 5;
+	minCarSpeed_ = 1.0;
+	currentSpeed_ = 5.0;
 }
 
 void 
-Car::moveCar(const int& direction, const int& fieldWidth, const int& fieldHeight)
+Car::move(const int& direction, const int& fieldWidth, const int& fieldHeight)
 {
 	int dX = 0;
 
-	switch (direction)
-	{
-	case DIRECTION_LEFT:
-		if (carParts_->at(LEFT_TOP_TIRE).getX() == 1)
-			return;
+	switch (direction) {
+		case DIRECTION_LEFT :
+			if (carParts_->at(LEFT_TOP_TIRE).getX() == 1)
+				return;
 
-		dX = -1;
-		break;
-	case DIRECTION_RIGHT:
-		if (carParts_->at(RIGHT_TOP_TIRE).getX() == fieldWidth - 2)
-			return;
+			dX = -1;
+			break;
+		case DIRECTION_RIGHT :
+			if (carParts_->at(RIGHT_TOP_TIRE).getX() == fieldWidth - 2)
+				return;
 
-		dX = 1;
-		break;
-	case DIRECTION_UP:
-		currentSpeed_ += speedStep_;
-		break;
-	case DIRECTION_DOWN:
-		currentSpeed_ -= speedStep_;
+			dX = 1;
+			break;
+		case DIRECTION_UP :
+			currentSpeed_ += speedStep_;
+			break;
+		case DIRECTION_DOWN :
+			currentSpeed_ -= speedStep_;
 
-		if (currentSpeed_ <= minCarSpeed_)
-			currentSpeed_ = minCarSpeed_;
+			if (currentSpeed_ <= minCarSpeed_)
+				currentSpeed_ = minCarSpeed_;
 
-		break;
+			break;
 	}
 
 	for (int i = 0; i < PARTS_COUNT; i++)
@@ -62,7 +61,7 @@ Car::moveCar(const int& direction, const int& fieldWidth, const int& fieldHeight
 }
 
 void 
-Car::showCarSpeed() const
+Car::showSpeed() const
 {
 	cout << "Car speed: " << setw(5) << currentSpeed_ << " m/s";
 }
@@ -78,7 +77,8 @@ Car::getCurrentSpeed()
 	return currentSpeed_;
 }
 
-void Car::setCarPartsCoords(const vector<Coordinate>& parts)
+void 
+Car::setPartsCoords(const vector<Coordinate>& parts)
 {
 	*carParts_ = parts;
 }
@@ -89,13 +89,14 @@ Car::getPartsCount() const
 	return PARTS_COUNT;
 }
 
-vector<Coordinate>&
-Car::getCarPartsCoords() const
+const vector<Coordinate>&
+Car::getPartsCoords() const
 {
 	return *carParts_;
 }
 
-double Car::getMinCarSpeed() const
+double 
+Car::getMinSpeed() const
 {
 	return minCarSpeed_;
 }

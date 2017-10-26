@@ -6,14 +6,15 @@ class Car
 public:
 	Car(const Coordinate& carTop);
 
-	void					moveCar(const int& direction, const int& fieldWidth, const int& fieldHeight);
-	void					showCarSpeed()									const;
-	vector<Coordinate>&		getCarPartsCoords()								const;
-	double					getMinCarSpeed()								const;
-	double					getSpeedStep()									const;
-	double					getCurrentSpeed();
-	void					setCarPartsCoords(const vector<Coordinate>& parts);
-	int						getPartsCount()									const;
+	void						move(const int& direction, const int& fieldWidth, 
+									 const int& fieldHeight);
+	void						showSpeed()								const;
+	const vector<Coordinate>&	getPartsCoords()							const;
+	double						getMinSpeed()								const;
+	double						getSpeedStep()								const;
+	double						getCurrentSpeed();
+	void						setPartsCoords(const vector<Coordinate>& parts);
+	int							getPartsCount()							const;
 
 	enum Direction
 	{
@@ -22,7 +23,7 @@ public:
 		DIRECTION_RIGHT = 77,
 		DIRECTION_DOWN = 80
 	};
-	enum CarParts
+	enum CarPart
 	{
 		LEFT_TOP_TIRE,
 		LEFT_BOTTOM_TIRE,
@@ -31,7 +32,6 @@ public:
 		RIGHT_TOP_TIRE,
 		RIGHT_BOTTOM_TIRE
 	};
-
 private:
 	vector<Coordinate>* carParts_;
 

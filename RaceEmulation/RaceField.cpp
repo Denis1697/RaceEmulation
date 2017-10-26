@@ -39,7 +39,8 @@ RaceField::setBlockType(const Coordinate& coordinate, const int& blockType)
 	int x = coordinate.getX();
 	int y = coordinate.getY();
 
-	if (x < 0 || x > FIELD_WIDTH - 1 || y < 0 || y > FIELD_HEIGHT - 1 || blockType < 0 || blockType > 255)
+	if (x < 0 || x > FIELD_WIDTH - 1 || y < 0 || 
+		y > FIELD_HEIGHT - 1 || blockType < 0 || blockType > 255)
 		return;
 
 	raceField_[y][x] = blockType;

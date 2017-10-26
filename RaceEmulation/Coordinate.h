@@ -10,7 +10,6 @@ public:
 	int getY() const;
 	void setX(const int& x);
 	void setY(const int& y);
-
 private:
 	int x_;
 	int y_;

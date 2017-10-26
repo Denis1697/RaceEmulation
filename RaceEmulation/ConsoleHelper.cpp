@@ -24,7 +24,8 @@ ConsoleHelper::getStdHandle()
 }
 
 void 
-ConsoleHelper::drawWindow(const Coordinate & leftTopCoord, const Coordinate & rightBottomCoord)
+ConsoleHelper::drawWindow(const Coordinate& leftTopCoord, 
+						  const Coordinate& rightBottomCoord)
 {
 	int x1 = leftTopCoord.getX();
 	int x2 = rightBottomCoord.getX();
@@ -44,16 +45,14 @@ ConsoleHelper::drawWindow(const Coordinate & leftTopCoord, const Coordinate & ri
 	cout << static_cast<char>(LEFT_BOTTOM_CORNER);
 
 
-	for (int i = 0; i < dX-1; i++)
-	{
+	for (int i = 0; i < dX-1; i++) {
 		setCursorPosition({ x1 + i + 1, y1 });
 		cout << static_cast<char>(HORIZONTAL_PART);
 		setCursorPosition({ x1 + i + 1, y2 });
 		cout << static_cast<char>(HORIZONTAL_PART);
 	}
 
-	for (int i = 0; i < dY-1; i++)
-	{
+	for (int i = 0; i < dY-1; i++) {
 		setCursorPosition({ x1, y1 + i + 1 });
 		cout << static_cast<char>(VERTICAL_PART);
 		setCursorPosition({ x2, y1 + i + 1 });
@@ -62,7 +61,8 @@ ConsoleHelper::drawWindow(const Coordinate & leftTopCoord, const Coordinate & ri
 }
 
 void 
-ConsoleHelper::clearWindow(const Coordinate & leftTopCoord, const Coordinate & rightBottomCoord)
+ConsoleHelper::clearWindow(const Coordinate& leftTopCoord, 
+						   const Coordinate& rightBottomCoord)
 {
 	int x1 = leftTopCoord.getX();
 	int x2 = rightBottomCoord.getX();
@@ -71,10 +71,8 @@ ConsoleHelper::clearWindow(const Coordinate & leftTopCoord, const Coordinate & r
 
 	setCursorPosition(leftTopCoord);
 
-	for (int i = y1; i <= y2; i++)
-	{
-		for (int j = x1; j <= x2; j++)
-		{
+	for (int i = y1; i <= y2; i++) {
+		for (int j = x1; j <= x2; j++) {
 			cout << " ";
 		}
 		setCursorPosition({ x1, i + 1 });

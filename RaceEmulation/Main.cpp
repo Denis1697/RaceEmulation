@@ -4,9 +4,9 @@ void main()
 {
 	srand(static_cast<unsigned int>(time(0)));
 
-	GameProcessor gameProcessor;
+	GameProcessor	gameProcessor;
+	RaceField*		field;	
 
-	RaceField * field;	
 	if (gameProcessor.startingMode() == 1)
 		field = new EasyField();
 	else
@@ -17,26 +17,23 @@ void main()
 	Coordinate topCarCoord(width / 2, height - 5);
 
 
-	Car * car = new Car(topCarCoord);
-	Timer timer;
+	Car*	car = new Car(topCarCoord);
+	Timer	timer;
 
 	gameProcessor.setRaceField(field);
 	gameProcessor.setCar(car);
 	gameProcessor.setTimer(&timer);	
-
-	gameProcessor.placeCar(car->getCarPartsCoords());
+	gameProcessor.placeCar(car->getPartsCoords());
 
 	timer.start();
 
 	ConsoleHelper::setCursorState(false);
 
-	while (true)
-	{
+	while (true) {
 
-		while (_kbhit() == 0)
-		{
+		while (_kbhit() == 0) {
 			gameProcessor.showStatistics();
-			gameProcessor.makeGameTick();
+			gameProcessor.computeGameTick();
 			field->draw();
 		}
 
@@ -47,15 +44,12 @@ void main()
 			 wasArrowPressed |= (key == Car::DIRECTION_UP);
 			 wasArrowPressed |= (key == Car::DIRECTION_DOWN);
 			 
-		if (wasArrowPressed)
-		{
-			gameProcessor.processCarMove(key);
+		if (wasArrowPressed) {
+			gameProcessor.computeCarMove(key);
 			gameProcessor.drawCar();
 		}
-		else 
-		{
-			switch (key)
-			{
+		else {
+			switch (key) {
 			case GameProcessor::ENTER:
 				gameProcessor.setPause();
 				break;
