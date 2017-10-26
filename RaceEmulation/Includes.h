@@ -14,11 +14,11 @@ using namespace std;
 
 #include "Coordinate.h"
 #include "Car.h"
+#include "Timer.h"
 #include "RaceField.h"
 #include "ComplicatedField.h"
 #include "EasyField.h"
-#include "ConsoleHandler.h"
+#include "ConsoleHelper.h"
 #include "GameProcessor.h"
-#include "Timer.h"
 
 #endif

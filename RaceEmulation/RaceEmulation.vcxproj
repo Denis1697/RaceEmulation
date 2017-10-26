@@ -148,7 +148,7 @@
   <ItemGroup>
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="ComplicatedField.cpp" />
-    <ClCompile Include="ConsoleHandler.cpp" />
+    <ClCompile Include="ConsoleHelper.cpp" />
     <ClCompile Include="Coordinate.cpp" />
     <ClCompile Include="EasyField.cpp" />
     <ClCompile Include="GameProcessor.cpp" />
@@ -159,7 +159,7 @@
   <ItemGroup>
     <ClInclude Include="Car.h" />
     <ClInclude Include="ComplicatedField.h" />
-    <ClInclude Include="ConsoleHandler.h" />
+    <ClInclude Include="ConsoleHelper.h" />
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="EasyField.h" />
     <ClInclude Include="GameProcessor.h" />

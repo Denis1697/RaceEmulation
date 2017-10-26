@@ -30,9 +30,6 @@
     <ClCompile Include="EasyField.cpp">
       <Filter>Файлы исходного кода\Fields</Filter>
     </ClCompile>
-    <ClCompile Include="ConsoleHandler.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="GameProcessor.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -48,12 +45,12 @@
     <ClCompile Include="RaceField.cpp">
       <Filter>Файлы исходного кода\Fields</Filter>
     </ClCompile>
+    <ClCompile Include="ConsoleHelper.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="ConsoleHandler.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="EasyField.h">
@@ -75,6 +72,9 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="Coordinate.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleHelper.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
