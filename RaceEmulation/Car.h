@@ -8,20 +8,20 @@ public:
 
 	void						move(const int& direction, const int& fieldWidth, 
 									 const int& fieldHeight);
-	void						showSpeed()								const;
+	void						showSpeed()									const;
 	const vector<Coordinate>&	getPartsCoords()							const;
 	double						getMinSpeed()								const;
 	double						getSpeedStep()								const;
 	double						getCurrentSpeed();
 	void						setPartsCoords(const vector<Coordinate>& parts);
-	int							getPartsCount()							const;
+	int							getPartsCount()								const;
 
 	enum Direction
 	{
-		DIRECTION_UP = 72,
-		DIRECTION_LEFT = 75,
+		DIRECTION_UP	= 72,
+		DIRECTION_LEFT	= 75,
 		DIRECTION_RIGHT = 77,
-		DIRECTION_DOWN = 80
+		DIRECTION_DOWN	= 80
 	};
 	enum CarPart
 	{
@@ -35,11 +35,10 @@ public:
 private:
 	vector<Coordinate>* carParts_;
 
-	const int PARTS_COUNT = 6;
-
-	double minCarSpeed_;
-	double speedStep_;
-	double currentSpeed_;	
+	const int	PARTS_COUNT = 6;
+	double		minCarSpeed_;
+	double		speedStep_;
+	double		currentSpeed_;	
 };
 
 #endif

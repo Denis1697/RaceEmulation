@@ -18,13 +18,13 @@ public:
 
 	enum BlockType
 	{
-		EMPTY = 32,
-		BORDER_ONE = 177,
-		BORDER_TWO = 176,
-		OBSTACLE = 220,
-		CAR_TOP = 254,
-		CAR_TIRE = 111,
-		CAR_TORSO = 219
+		EMPTY		= 32,
+		BORDER_ONE	= 177,
+		BORDER_TWO	= 176,
+		OBSTACLE	= 220,
+		CAR_TOP		= 254,
+		CAR_TIRE	= 111,
+		CAR_TORSO	= 219
 	};
 
 	enum Obstacle
@@ -38,7 +38,7 @@ protected:
 	static const int	FIELD_HEIGHT = 30;
 	static const int	FIELD_WIDTH = 30;
 
-	int raceField_[FIELD_HEIGHT][FIELD_WIDTH];
+	int					raceField_[FIELD_HEIGHT][FIELD_WIDTH];
 };
 
 #endif
