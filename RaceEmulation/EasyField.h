@@ -13,6 +13,7 @@ public:
 
 private:
 	static const int	OBSTACLES_NO = 3;
+	int buffer_[FIELD_WIDTH];
 };
 
 #endif

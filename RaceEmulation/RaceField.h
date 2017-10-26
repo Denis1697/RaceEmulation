@@ -40,7 +40,6 @@ protected:
 	static const int	FIELD_WIDTH = 30;
 
 	int raceField_[FIELD_HEIGHT][FIELD_WIDTH];
-	int buffer_[FIELD_WIDTH];
 };
 
 #endif

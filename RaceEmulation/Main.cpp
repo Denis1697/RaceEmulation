@@ -9,7 +9,7 @@ void main()
 	timer.start();
 
 
-	RaceField * field = new EasyField();
+	RaceField * field = new ComplicatedField();
 	int width = field->getWidth();
 	int height = field->getHeight();
 
