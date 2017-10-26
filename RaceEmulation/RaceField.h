@@ -4,17 +4,17 @@
 class RaceField
 {
 public:
-	int			 getHeight()										const;
-	int			 getWidth()											const;
-	void		 draw()												const;
-	void		 drawBlock(const Coordinate& coordinate)			const;
-	void		 setBlockType(const Coordinate& coordinate, 
+	int				getHeight()											const;
+	int				getWidth()											const;
+	void			draw()												const;
+	void			drawBlock(const Coordinate& coordinate)				const;
+	void			setBlockType(const Coordinate& coordinate, 
 				 			 const int& blockType);
-	int			 getBlockType(const Coordinate& coordinate)			const;
-	virtual void generateObstacle()										  = 0;
-	virtual int	 getBufferBlockType(const Coordinate& coordinate)	const = 0;
-	virtual void clearBuffer()											  = 0;
-	virtual void placeObstacle()										  = 0;
+	int				getBlockType(const Coordinate& coordinate)			const;
+	virtual void	generateObstacle()									= 0;
+	virtual int		getBufferBlockType(const Coordinate& coordinate)	const = 0;
+	virtual void	clearBuffer()										= 0;
+	virtual void	placeObstacle()										= 0;
 
 	enum BlockType
 	{
