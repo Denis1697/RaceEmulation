@@ -20,16 +20,10 @@ public:
 	virtual int   getBufferBlockType(const Coordinate& coordinate) const = 0;
 
 protected:
-	static const int  FIELD_HEIGHT = 30;
-	static const int  FIELD_WIDTH = 30;
-
-	const int  LEFT_BORDER = 0;
-	const int  BOTTOM_BORDER = 0;
-	const int  RIGHT_BORDER = FIELD_WIDTH - 1;
-	const int  TOP_BORDER = FIELD_HEIGHT - 1;
-	const int  BAD_BLOCKTYPE = -1;
-
-	int        raceField_[FIELD_HEIGHT][FIELD_WIDTH];
+	static const int  FIELD_HEIGHT  = 30;
+	static const int  FIELD_WIDTH   = 30;
+	const  int        BAD_BLOCKTYPE = -1;
+	int               raceField_[FIELD_HEIGHT][FIELD_WIDTH];
 };
 
 #endif

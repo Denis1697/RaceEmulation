@@ -56,10 +56,15 @@ RaceField::isNotInField(const Coordinate& coordinate) const {
 	int x = coordinate.getX();
 	int y = coordinate.getY();
 
-	bool isPointNotInField  = x < LEFT_BORDER;
-	     isPointNotInField |= x > RIGHT_BORDER;
-	     isPointNotInField |= y < BOTTOM_BORDER;
-	     isPointNotInField |= y > TOP_BORDER;
+	int  leftBorder   = 0;
+	int  bottomBorder = 0;
+	int  rightBorder  = FIELD_WIDTH - 1;
+	int  topBorder    = FIELD_HEIGHT - 1;
+
+	bool isPointNotInField  = x < leftBorder;
+	     isPointNotInField |= x > rightBorder;
+	     isPointNotInField |= y < bottomBorder;
+	     isPointNotInField |= y > topBorder;
 
 	return isPointNotInField;
 }
