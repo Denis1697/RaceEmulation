@@ -12,7 +12,7 @@ public:
 	void              placeObstacle();
 private:
 	static const int  OBSTACLES_NO = 3;
-	int				  buffer_[FIELD_WIDTH];
+	int               buffer_[FIELD_WIDTH];
 };
 
 #endif
