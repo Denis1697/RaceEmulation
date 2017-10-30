@@ -9,7 +9,7 @@ public:
 
 	bool  isCarCrushed(const int& direction = 0)          const;
 	void  drawCar()                                       const;
-	int   getTraveledDistance()							  const;
+	int   getTraveledDistance()                           const;
 	void  computeGameTick();
 	void  computeCarMove(const int& direction);
 	void  setRaceField(RaceField* raceField);
