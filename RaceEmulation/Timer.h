@@ -5,11 +5,14 @@ class Timer
 {
 public:
 	Timer();
+	Timer(const Timer& timer);
+	Timer& operator=(const Timer& timer);
 
 	void        start();
 	void        pause();
-	void        showTime();
 	void        calculateTime();
+	void        showTime()       const;
+	string      getTime()        const;
 private:
 	int         currentTime_;
 	int         seconds_;

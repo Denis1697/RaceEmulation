@@ -2,27 +2,19 @@
 #include "Car.h"
 GameProcessor::GameProcessor() {
 	raceField_ = nullptr;
-	car_       = nullptr;
-	timer_     = nullptr;
 
-	gameStatus_       = true;
 	nGameTicks_       = 0;
 	traveledDistance_ = 0;
 }
 
 GameProcessor::~GameProcessor() {
-	delete car_;
 	delete raceField_;
-	delete timer_;
-
-	car_       = nullptr;
 	raceField_ = nullptr;
-	timer_     = nullptr;
 }
 
 bool
 GameProcessor::isCarCrushed(const int& direction) const {
-	vector<Coordinate> parts = car_->getPartsCoords();
+	vector<Coordinate> parts = car_.getPartsCoords();
 
 	int topCarX = parts[CarPart::CAR_HEAD].getX();
 	int topCarY = parts[CarPart::CAR_HEAD].getY();
@@ -83,7 +75,7 @@ GameProcessor::placeCar(const vector<Coordinate>& oldPosition) {
 	raceField_->drawBlock(oldPosition[CarPart::RIGHT_TOP_TIRE]);
 	raceField_->drawBlock(oldPosition[CarPart::RIGHT_BOTTOM_TIRE]);
 
-	vector<Coordinate> parts = car_->getPartsCoords();
+	vector<Coordinate> parts = car_.getPartsCoords();
 
 	raceField_->setBlockType(parts[CarPart::LEFT_TOP_TIRE],
 		BlockType::CAR_TIRE);
@@ -149,44 +141,22 @@ GameProcessor::computeGameTick() {
 	}
 
 	if (isCarCrushed(Direction::DIRECTION_UP)) {
-		gameOver();
+		ConsoleNotifier::gameOver();
 	}
 
 	nGameTicks_++;
 	traveledDistance_ = nGameTicks_;
 
-	int drawSpeed = ONE_SECOND / static_cast<int>(car_->getCurrentSpeed());
+	int drawSpeed = ONE_SECOND / static_cast<int>(car_.getCurrentSpeed());
 
 	Sleep(drawSpeed);
 }
 
 void
-GameProcessor::gameOver() {
-	int leftTopX     = 44;
-	int leftTopY     = 9;
-	int windowWidth  = 31;
-	int windowHeight = 2;
-
-	Coordinate leftTop  = { leftTopX, leftTopY };
-	Coordinate rightBot = { leftTopX + windowWidth, 
-		                    leftTopY + windowHeight };
-
-	ConsoleHelper::drawWindow(leftTop, rightBot);
-
-	ConsoleHelper::setCursorPosition({ leftTopX + 1, leftTopY + 1 });
-	cout << "Sorry, your car has crushed...";
-
-	gameStatus_ = false;
-	ConsoleHelper::setCursorPosition({ leftTopX + 1, leftTopY + 4 });
-	system("pause");
-	exit(0);
-}
-
-void
 GameProcessor::computeCarMove(const int& direction) {
-	int nParts = car_->getPartsCount();
+	int nParts = car_.getPartsCount();
 
-	vector<Coordinate> parts = car_->getPartsCoords();
+	vector<Coordinate> parts = car_.getPartsCoords();
 	vector<Coordinate> oldParts(nParts);
 
 	for (int i = 0; i < nParts; i++) {
@@ -194,10 +164,10 @@ GameProcessor::computeCarMove(const int& direction) {
 		oldParts[i].setY(parts[i].getY());
 	}
 
-	car_->move(direction, raceField_->getWidth(), raceField_->getHeight());
+	car_.move(direction, raceField_->getWidth(), raceField_->getHeight());
 
 	if (isCarCrushed(direction)) {
-		gameOver();
+		ConsoleNotifier::gameOver();
 	}
 	else {
 		placeCar(oldParts);
@@ -206,66 +176,7 @@ GameProcessor::computeCarMove(const int& direction) {
 }
 
 void
-GameProcessor::showTraveledDistance() const {
-	cout << "Traveled distance: " << traveledDistance_ << " m";
-}
-
-bool
-GameProcessor::getGameStatus() {
-	return gameStatus_;
-}
-
-int
-GameProcessor::startingMode() const {
-	const int OBSTACLE_ANSWER = 1;
-	const int CAR_ANSWER      = 2;
-
-	int leftTopX     = 24;
-	int leftTopY     = 9;
-	int windowWidth  = 16;
-	int windowHeight = 5;
-	int firstColumn  = leftTopX + 1;
-
-	Coordinate answerPosition = { leftTopX + 9, leftTopY + 4 };
-	Coordinate leftTop        = { leftTopX, leftTopY };
-	Coordinate rightBot       = { leftTopX + windowWidth,
-		                          leftTopY + windowHeight };
-
-	string startingModeText[4] = {
-		"Select the mode",
-		"1. Obstacles",
-		"2. Cars",
-		"Answer: "
-	};
-
-	ConsoleHelper::drawWindow(leftTop, rightBot);
-
-	for (int i = 1; i < windowHeight; i++) {
-		ConsoleHelper::setCursorPosition({ firstColumn, leftTopY + i });
-		cout << startingModeText[i - 1];
-	}
-
-	int answer;
-	cin >> answer;
-
-	bool isAnswerIncorrect  = answer != OBSTACLE_ANSWER;
-	     isAnswerIncorrect &= answer != CAR_ANSWER;
-
-	while (isAnswerIncorrect) {
-		ConsoleHelper::setCursorPosition(answerPosition);
-		cin >> answer;
-
-		isAnswerIncorrect  = answer != OBSTACLE_ANSWER;
-		isAnswerIncorrect &= answer != CAR_ANSWER;
-	}
-
-	ConsoleHelper::clearWindow(leftTop, rightBot);
-
-	return answer;
-}
-
-void
-GameProcessor::setCar(Car* car) {
+GameProcessor::setCar(const Car& car) {
 	car_ = car;
 }
 
@@ -274,119 +185,19 @@ GameProcessor::setRaceField(RaceField* raceField) {
 	raceField_ = raceField;
 }
 
-void
-GameProcessor::setTimer(Timer* timer) {
-	timer_ = timer;
+const Car & GameProcessor::getCar() const
+{
+	return car_;
 }
 
-void
-GameProcessor::showStatistics() const {
-	int leftTopX     = 44;
-	int leftTopY     = 4;
-	int windowWidth  = 26;
-	int windowHeight = 4;
-	int firstColumn  = leftTopX + 1;
-
-	Coordinate leftTop  = { leftTopX, leftTopY };
-	Coordinate rightBot = { leftTopX + windowWidth,
-		                    leftTopY + windowHeight };
-
-	ConsoleHelper::drawWindow(leftTop, rightBot);
-
-	ConsoleHelper::setCursorPosition({ firstColumn, leftTopY + 1 });
-	cout << "Time: ";
-	timer_->showTime();
-
-	ConsoleHelper::setCursorPosition({ firstColumn, leftTopY + 2 });
-	showTraveledDistance();
-
-	ConsoleHelper::setCursorPosition({ firstColumn, leftTopY + 3 });
-	car_->showSpeed();
-}
-
-void
-GameProcessor::setPause() const {
-	int leftTopX     = 44;
-	int leftTopY     = 9;
-	int windowWidth  = 6;
-	int windowHeight = 2;
-	int firstColumn  = leftTopX + 1;
-
-	Coordinate leftTop  = { leftTopX, leftTopY };
-	Coordinate rightBot = { leftTopX + windowWidth,
-		                    leftTopY + windowHeight };
-
-	ConsoleHelper::drawWindow(leftTop, rightBot);
-
-	ConsoleHelper::setCursorPosition({ firstColumn, leftTopY + 1 });
-	cout << "Pause";
-
-	ConsoleHelper::setCursorPosition({ firstColumn, leftTopY + 4 });
-	system("pause");
-
-	ConsoleHelper::clearWindow(leftTop, rightBot);
-
-	//clearing window from system message "Press any key to continue"
-	ConsoleHelper::clearWindow({ leftTopX, leftTopY + 4 },
-	{ leftTopX + 50, leftTopY + 4 });
-}
-
-void
-GameProcessor::leaveTheGame() const {
-	const int YES_ANSWER = 1;
-	const int NO_ANSWER  = 2;
-
-	int leftTopX     = 44;
-	int leftTopY     = 9;
-	int windowWidth  = 16;
-	int windowHeight = 5;
-	int firstColumn  = leftTopX + 1;
-
-	Coordinate answerPosition = { leftTopX + 9, leftTopY + 4 };
-	Coordinate leftTop        = { leftTopX, leftTopY };
-	Coordinate rightBot       = { leftTopX + windowWidth,
-		                          leftTopY + windowHeight };
-
-	string leaveTheGameText[4] = {
-		"Quit?",
-		"1. Yes",
-		"2. No",
-		"Answer: "
-	};
-
-	ConsoleHelper::drawWindow(leftTop, rightBot);
-
-	for (int i = 1; i < windowHeight; i++) {
-		ConsoleHelper::setCursorPosition({ firstColumn, leftTopY + i });
-		cout << leaveTheGameText[i - 1];
-	}
-
-	int answer;
-	cin >> answer;
-
-	bool isAnswerIncorrect  = answer != YES_ANSWER;
-	     isAnswerIncorrect &= answer != NO_ANSWER;
-
-	while (isAnswerIncorrect) {
-		ConsoleHelper::setCursorPosition(answerPosition);
-		cout << "  ";
-		ConsoleHelper::setCursorPosition(answerPosition);
-		cin >> answer;
-
-		isAnswerIncorrect  = answer != YES_ANSWER;
-		isAnswerIncorrect &= answer != NO_ANSWER;
-	}
-
-	if (answer == YES_ANSWER) {
-		exit(0);
-	}
-
-	ConsoleHelper::clearWindow(leftTop, rightBot);
+int GameProcessor::getTraveledDistance() const
+{
+	return traveledDistance_;
 }
 
 vector<Coordinate>
 GameProcessor::getStartingPartsCoordinates() const {
-	int nParts = car_->getPartsCount();
+	int nParts = car_.getPartsCount();
 
 	vector<Coordinate> parts(nParts);
 
@@ -432,7 +243,7 @@ GameProcessor::alternateBorders() const {
 
 void
 GameProcessor::drawCar() const {
-	vector<Coordinate> parts = car_->getPartsCoords();
+	vector<Coordinate> parts = car_.getPartsCoords();
 
 	raceField_->drawBlock(parts[CarPart::LEFT_TOP_TIRE]);
 	raceField_->drawBlock(parts[CarPart::LEFT_BOTTOM_TIRE]);

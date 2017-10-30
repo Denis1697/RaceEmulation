@@ -20,6 +20,7 @@ using namespace std;
 #include "EasyField.h"
 #include "ConsoleHelper.h"
 #include "GameProcessor.h"
+#include "ConsoleNotifier.h"
 
 enum BlockType {
 	EMPTY = 32,

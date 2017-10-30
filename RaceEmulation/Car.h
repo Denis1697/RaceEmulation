@@ -4,14 +4,17 @@
 class Car
 {
 public:
+	Car();
+	~Car();
 	Car(const Coordinate& carTop);
+	Car(const Car& car);
+	Car & operator=(const Car& car); 
 
 	const vector<Coordinate>& getPartsCoords()                           const;
-	void                showSpeed()                                      const;
 	double              getMinSpeed()                                    const;
 	double              getSpeedStep()                                   const;
 	int                 getPartsCount()                                  const;
-	double              getCurrentSpeed();
+	double              getCurrentSpeed()                                const;
 	void                setPartsCoords(const vector<Coordinate>& parts);
 	void                move(const int& direction, const int& fieldWidth,
 		                     const int& fieldHeight);

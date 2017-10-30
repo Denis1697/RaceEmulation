@@ -4,13 +4,17 @@ void main()
 {
 	srand(static_cast<unsigned int>(time(0)));
 
-	const int OBSTACLE_MODE = 1;
-	const int CAR_MODE      = 2;
+	const int  OBSTACLE_MODE = 1;
+	const int  CAR_MODE      = 2;
+	const bool STATUS_ACTIVE = true;
+	const bool STATUS_EXIT   = true;
+	bool       gameStatus    = STATUS_ACTIVE;
 
-	GameProcessor gameProcessor;
-	RaceField*    field;
+	ConsoleNotifier consoleNotifier;
+	GameProcessor   gameProcessor;
+	RaceField*      field;
 
-	int gameMode = gameProcessor.startingMode() == 1;
+	int gameMode = consoleNotifier.startingMode() == 1;
 
 	if (gameMode == OBSTACLE_MODE) {
 		field = new EasyField();
@@ -23,23 +27,27 @@ void main()
 	int yOffset = field->getHeight() - 5;
 	Coordinate topCarCoord(xOffset, yOffset);
 
-	Car*  car = new Car(topCarCoord);
-
+	Car   car(topCarCoord);
 	Timer timer;
 
 	gameProcessor.setRaceField(field);
 	gameProcessor.setCar(car);
-	gameProcessor.setTimer(&timer);
-	gameProcessor.placeCar(car->getPartsCoords());
+	gameProcessor.placeCar(car.getPartsCoords());
 
 	timer.start();
 
 	ConsoleHelper::setCursorState(false);
 
-	while (gameProcessor.getGameStatus() == true) {
+	while (gameStatus == STATUS_ACTIVE) {
 
 		while (_kbhit() == 0) {
-			gameProcessor.showStatistics();
+			timer.calculateTime();
+
+			string time     = timer.getTime();
+			double speed    = gameProcessor.getCar().getCurrentSpeed();
+			int    distance = gameProcessor.getTraveledDistance();
+			
+			consoleNotifier.showStatistics(distance, time, speed);
 			gameProcessor.computeGameTick();
 			field->draw();
 		}
@@ -58,10 +66,12 @@ void main()
 		else {
 			switch (key) {
 			    case ServiceButton::ENTER:
-			        gameProcessor.setPause();
+			        consoleNotifier.setPause();
 			        break;
 			    case ServiceButton::ESCAPE:
-			        gameProcessor.leaveTheGame();
+					if (consoleNotifier.leaveTheGame() == true) {
+						gameStatus = false;
+					}
 			}
 		}
 	}

@@ -1,5 +1,12 @@
 #include "Includes.h"
 
+Car::Car() {
+	carParts_     = nullptr; 
+	speedStep_    = 0.1;
+	minCarSpeed_  = 1.0;
+	currentSpeed_ = 5.0;
+}
+
 Car::Car(const Coordinate& carTop) {
 	carParts_ = new vector<Coordinate>(PARTS_COUNT);
 
@@ -24,6 +31,32 @@ Car::Car(const Coordinate& carTop) {
 	speedStep_    = 0.1;
 	minCarSpeed_  = 1.0;
 	currentSpeed_ = 5.0;
+}
+
+Car::Car(const Car& car) {
+	carParts_ = new vector<Coordinate>(PARTS_COUNT);
+	vector<Coordinate> newPartsCoords = car.getPartsCoords();
+
+	for (int i = 0; i < PARTS_COUNT; i++) {
+		carParts_->at(i) = newPartsCoords[i];
+	}
+}
+
+Car::~Car() {
+	delete carParts_;
+}
+
+Car& Car::operator=(const Car& car) {
+	if (this != &car) {
+		delete carParts_;
+		carParts_ = new vector<Coordinate>(PARTS_COUNT);
+		vector<Coordinate> newPartsCoords = car.getPartsCoords();
+
+		for (int i = 0; i < PARTS_COUNT; i++) {
+			carParts_->at(i) = newPartsCoords[i];
+		}
+	}
+	return *this;
 }
 
 void
@@ -66,17 +99,12 @@ Car::move(const int& direction, const int& fieldWidth, const int& fieldHeight) {
 	}
 }
 
-void
-Car::showSpeed() const {
-	cout << "Car speed: " << setw(5) << currentSpeed_ << " m/s";
-}
-
 double Car::getSpeedStep() const {
 	return speedStep_;
 }
 
 double
-Car::getCurrentSpeed() {
+Car::getCurrentSpeed() const {
 	return currentSpeed_;
 }
 

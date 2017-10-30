@@ -149,6 +149,7 @@
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="ComplicatedField.cpp" />
     <ClCompile Include="ConsoleHelper.cpp" />
+    <ClCompile Include="ConsoleNotifier.cpp" />
     <ClCompile Include="Coordinate.cpp" />
     <ClCompile Include="EasyField.cpp" />
     <ClCompile Include="GameProcessor.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Car.h" />
     <ClInclude Include="ComplicatedField.h" />
     <ClInclude Include="ConsoleHelper.h" />
+    <ClInclude Include="ConsoleNotifier.h" />
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="EasyField.h" />
     <ClInclude Include="GameProcessor.h" />
