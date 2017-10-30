@@ -1,113 +1,107 @@
 #include "Includes.h"
 
-ComplicatedField::ComplicatedField()
-{
+ComplicatedField::ComplicatedField() {
 	for (int j = 0; j < FIELD_HEIGHT; j++) {
 		for (int i = 0; i < FIELD_WIDTH; i++) {
 			BlockType currentBorder = (j % 2 == 0 ? BORDER_ONE : BORDER_TWO);
 
-			if (i == 0 || i == FIELD_WIDTH - 1)
+			if (i == 0 || i == FIELD_WIDTH - 1) {
 				raceField_[j][i] = currentBorder;
-			else
+			}
+			else {
 				raceField_[j][i] = EMPTY;
+			}
 		}
 	}
 }
 
-void 
-ComplicatedField::generateObstacle()
-{
-	int partOfRoad	= rand() % 2 + 1;
-	int seed		= rand() % 4 - 2;
+void
+ComplicatedField::generateObstacle() {
+	int firstRoadPart  = rand() % 2 + 1;
+	int secondRoadPart = rand() % 2 + 1;
 
-	int headX;
-	int headY; 
+	generateCar(firstRoadPart, true);
+	generateCar(secondRoadPart, false);
+}
 
-	switch (partOfRoad) {
-		case 1 :
-			headX = 4 + seed;
-			headY = 3;
+void
+ComplicatedField::generateCar(int roadPart, bool isFirst) {
+	const int LEFT_ROAD_PART  = 1;
+	const int RIGHT_ROAD_PART = 2;
+	const int CAR_HEAD_TOP    = 0;
+	const int CAR_HEAD_BOTTOM = 3;
 
-			buffer_[headY - 2][headX]		= OBSTACLE;
-			buffer_[headY - 1][headX - 1]	= OBSTACLE;
-			buffer_[headY - 3][headX - 1]	= OBSTACLE;
-			buffer_[headY - 1][headX + 1]	= OBSTACLE;
-			buffer_[headY - 3][headX + 1]	= OBSTACLE;
-			break;
-		case 2 :
-			headX = FIELD_WIDTH - 4 + seed;
-			headY = 0; 
+	int randomSeed, xOffset;
+	int headX, headY;
 
-			buffer_[headY + 2][headX]		= OBSTACLE;
-			buffer_[headY + 1][headX - 1]	= OBSTACLE;
-			buffer_[headY + 3][headX - 1]	= OBSTACLE;
-			buffer_[headY + 1][headX + 1]	= OBSTACLE;
-			buffer_[headY + 3][headX + 1]	= OBSTACLE;
-			break;
+	if (isFirst) {
+		randomSeed = rand() % 4 - 2;
+		xOffset = 4;
+	}
+	else {
+		randomSeed = rand() % 6 - 3;
+		xOffset = 11;
 	}
 
-	buffer_[headY][headX] = OBSTACLE;
+	switch (roadPart) {
+	case LEFT_ROAD_PART:
+		headX = xOffset + randomSeed;
+		headY = CAR_HEAD_BOTTOM;
 
-	partOfRoad = rand() % 2 + 1;
-	seed = rand() % 6 - 3;
+		buffer_[headY - 2][headX]     = OBSTACLE;
+		buffer_[headY - 1][headX - 1] = OBSTACLE;
+		buffer_[headY - 3][headX - 1] = OBSTACLE;
+		buffer_[headY - 1][headX + 1] = OBSTACLE;
+		buffer_[headY - 3][headX + 1] = OBSTACLE;
+		break;
+	case RIGHT_ROAD_PART:
+		headX = FIELD_WIDTH - xOffset + randomSeed;
+		headY = CAR_HEAD_TOP;
 
-	switch (partOfRoad) {
-		case 1 :
-			headX = 11 + seed;
-			headY = 3;
-
-			buffer_[headY - 2][headX]		= OBSTACLE;
-			buffer_[headY - 1][headX - 1]	= OBSTACLE;
-			buffer_[headY - 3][headX - 1]	= OBSTACLE;
-			buffer_[headY - 1][headX + 1]	= OBSTACLE;
-			buffer_[headY - 3][headX + 1]	= OBSTACLE;
-			break;
-		case 2 :
-			headX = FIELD_WIDTH - 11 + seed;
-			headY = 0;
-
-			buffer_[headY + 2][headX]		= OBSTACLE;
-			buffer_[headY + 1][headX - 1]	= OBSTACLE;
-			buffer_[headY + 3][headX - 1]	= OBSTACLE;
-			buffer_[headY + 1][headX + 1]	= OBSTACLE;
-			buffer_[headY + 3][headX + 1]	= OBSTACLE;
-			break;
+		buffer_[headY + 2][headX]     = OBSTACLE;
+		buffer_[headY + 1][headX - 1] = OBSTACLE;
+		buffer_[headY + 3][headX - 1] = OBSTACLE;
+		buffer_[headY + 1][headX + 1] = OBSTACLE;
+		buffer_[headY + 3][headX + 1] = OBSTACLE;
+		break;
 	}
 
 	buffer_[headY][headX] = OBSTACLE;
 }
 
-int 
-ComplicatedField::getBufferBlockType(const Coordinate& coordinate) const
-{
+
+int
+ComplicatedField::getBufferBlockType(const Coordinate& coordinate) const {
 	int x = coordinate.getX();
 	int y = coordinate.getY();
 
-	if (x < 0 || x > FIELD_WIDTH - 1 || y < 0 || y > BUFFER_HEIGHT - 1)
-		return -1;
+	if (isNotInField(coordinate) || y > BUFFER_HEIGHT - 1) {
+		return BAD_BLOCKTYPE;
+	}
 
 	return buffer_[y][x];
 }
 
-void 
-ComplicatedField::clearBuffer()
-{
-	for (int j = 0; j < BUFFER_HEIGHT; j++)
-		for (int i = 0; i < FIELD_WIDTH; i++)
+void
+ComplicatedField::clearBuffer() {
+	for (int j = 0; j < BUFFER_HEIGHT; j++) {
+		for (int i = 0; i < FIELD_WIDTH; i++) {
 			buffer_[j][i] = EMPTY;
+		}
+	}
 }
 
-void 
-ComplicatedField::placeObstacle()
-{
+void
+ComplicatedField::placeObstacle() {
 	generateObstacle();
 
-	for(int j = 0; j < BUFFER_HEIGHT; j++) {
+	for (int j = 0; j < BUFFER_HEIGHT; j++) {
 		for (int i = 0; i < FIELD_WIDTH; i++) {
 			int bufferBlockType = getBufferBlockType({ i, j });
 
-			if (bufferBlockType == RaceField::OBSTACLE)
+			if (bufferBlockType == BlockType::OBSTACLE) {
 				setBlockType({ i, j }, bufferBlockType);
+			}
 
 		}
 	}

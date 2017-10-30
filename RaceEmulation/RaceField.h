@@ -4,41 +4,32 @@
 class RaceField
 {
 public:
-	int				getHeight()		const;
-	int				getWidth()		const;
-	void			draw()			const;
-	void			drawBlock(const Coordinate& coordinate)			 const;
-	void			setBlockType(const Coordinate& coordinate, 
-				 			 const int& blockType);
-	int				getBlockType(const Coordinate& coordinate)		 const;
-	virtual void	generateObstacle()		= 0;
-	virtual int		getBufferBlockType(const Coordinate& coordinate) const = 0;
-	virtual void	clearBuffer()			= 0;
-	virtual void	placeObstacle()			= 0;
+	virtual ~RaceField() {};
 
-	enum BlockType
-	{
-		EMPTY		= 32,
-		BORDER_ONE	= 177,
-		BORDER_TWO	= 176,
-		OBSTACLE	= 220,
-		CAR_TOP		= 254,
-		CAR_TIRE	= 111,
-		CAR_TORSO	= 219
-	};
+	int           getHeight()                                      const;
+	int           getWidth()                                       const;
+	void          draw()                                           const;
+	void          drawBlock(const Coordinate& coordinate)          const;
+	bool          isNotInField(const Coordinate& coordinate)       const;
+	int           getBlockType(const Coordinate& coordinate)       const;
+	void          setBlockType(const Coordinate& coordinate,
+		                       const int& blockType);
+	virtual void  generateObstacle() = 0;
+	virtual void  clearBuffer() = 0;
+	virtual void  placeObstacle() = 0;
+	virtual int   getBufferBlockType(const Coordinate& coordinate) const = 0;
 
-	enum Obstacle
-	{
-		STONE,
-		LOG,
-		TREE,
-		CAR
-	};
 protected:
-	static const int	FIELD_HEIGHT = 30;
-	static const int	FIELD_WIDTH = 30;
+	static const int  FIELD_HEIGHT = 30;
+	static const int  FIELD_WIDTH = 30;
 
-	int					raceField_[FIELD_HEIGHT][FIELD_WIDTH];
+	const int  LEFT_BORDER = 0;
+	const int  BOTTOM_BORDER = 0;
+	const int  RIGHT_BORDER = FIELD_WIDTH - 1;
+	const int  TOP_BORDER = FIELD_HEIGHT - 1;
+	const int  BAD_BLOCKTYPE = -1;
+
+	int        raceField_[FIELD_HEIGHT][FIELD_WIDTH];
 };
 
 #endif

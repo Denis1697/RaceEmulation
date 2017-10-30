@@ -1,31 +1,26 @@
 #include "Includes.h"
 
-Coordinate::Coordinate(const int& x, const int& y)
-{
+Coordinate::Coordinate(const int& x, const int& y) {
 	x_ = x;
 	y_ = y;
 }
 
-int 
-Coordinate::getX() const
-{
+int
+Coordinate::getX() const {
 	return x_;
 }
 
-int 
-Coordinate::getY() const
-{
+int
+Coordinate::getY() const {
 	return y_;
 }
 
-void 
-Coordinate::setX(const int& x)
-{
+void
+Coordinate::setX(const int& x) {
 	x_ = x;
 }
 
-void 
-Coordinate::setY(const int& y)
-{
+void
+Coordinate::setY(const int& y) {
 	y_ = y;
 }

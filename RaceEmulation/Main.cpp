@@ -4,32 +4,39 @@ void main()
 {
 	srand(static_cast<unsigned int>(time(0)));
 
-	GameProcessor	gameProcessor;
-	RaceField*		field;	
+	const int OBSTACLE_MODE = 1;
+	const int CAR_MODE      = 2;
 
-	if (gameProcessor.startingMode() == 1)
+	GameProcessor gameProcessor;
+	RaceField*    field;
+
+	int gameMode = gameProcessor.startingMode() == 1;
+
+	if (gameMode == OBSTACLE_MODE) {
 		field = new EasyField();
-	else
+	}
+	else {
 		field = new ComplicatedField();
+	}
 
-	int width = field->getWidth();
-	int height = field->getHeight();
-	Coordinate topCarCoord(width / 2, height - 5);
+	int xOffset = field->getWidth() / 2;
+	int yOffset = field->getHeight() - 5;
+	Coordinate topCarCoord(xOffset, yOffset);
 
+	Car*  car = new Car(topCarCoord);
 
-	Car*	car = new Car(topCarCoord);
-	Timer	timer;
+	Timer timer;
 
 	gameProcessor.setRaceField(field);
 	gameProcessor.setCar(car);
-	gameProcessor.setTimer(&timer);	
+	gameProcessor.setTimer(&timer);
 	gameProcessor.placeCar(car->getPartsCoords());
 
 	timer.start();
 
 	ConsoleHelper::setCursorState(false);
 
-	while (true) {
+	while (gameProcessor.getGameStatus() == true) {
 
 		while (_kbhit() == 0) {
 			gameProcessor.showStatistics();
@@ -39,24 +46,23 @@ void main()
 
 		int key = _getch();
 
-		bool wasArrowPressed  = (key == Car::DIRECTION_LEFT);
-			 wasArrowPressed |= (key == Car::DIRECTION_RIGHT);
-			 wasArrowPressed |= (key == Car::DIRECTION_UP);
-			 wasArrowPressed |= (key == Car::DIRECTION_DOWN);
-			 
+		bool wasArrowPressed  = (key == Direction::DIRECTION_LEFT);
+		     wasArrowPressed |= (key == Direction::DIRECTION_RIGHT);
+		     wasArrowPressed |= (key == Direction::DIRECTION_UP);
+		     wasArrowPressed |= (key == Direction::DIRECTION_DOWN);
+
 		if (wasArrowPressed) {
 			gameProcessor.computeCarMove(key);
 			gameProcessor.drawCar();
 		}
 		else {
 			switch (key) {
-			case GameProcessor::ENTER:
-				gameProcessor.setPause();
-				break;
-			case GameProcessor::ESCAPE:
-				gameProcessor.leaveTheGame();
+			    case ServiceButton::ENTER:
+			        gameProcessor.setPause();
+			        break;
+			    case ServiceButton::ESCAPE:
+			        gameProcessor.leaveTheGame();
 			}
 		}
 	}
-
 }

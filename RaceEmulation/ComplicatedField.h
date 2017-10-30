@@ -6,13 +6,15 @@ class ComplicatedField : public RaceField
 public:
 	ComplicatedField();
 
-	void	generateObstacle(); 
-	int		getBufferBlockType(const Coordinate& coordinate)	const;
-	void	clearBuffer();
-	void	placeObstacle();
+	void              generateObstacle();
+	int               getBufferBlockType(const Coordinate& coordinate) const;
+	void              clearBuffer();
+	void              placeObstacle();
+	void              generateCar(int roadPart, bool isFirst);
+
 private:
-	static const int	BUFFER_HEIGHT = 4;
-	int					buffer_[BUFFER_HEIGHT][FIELD_WIDTH];
+	static const int  BUFFER_HEIGHT = 4;
+	int               buffer_[BUFFER_HEIGHT][FIELD_WIDTH];
 };
 
 #endif

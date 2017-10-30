@@ -1,8 +1,7 @@
 #include "Includes.h"
 
 void
-ConsoleHelper::setCursorPosition(const Coordinate& position)
-{
+ConsoleHelper::setCursorPosition(const Coordinate& position) {
 	int x = position.getX();
 	int y = position.getY();
 
@@ -10,23 +9,21 @@ ConsoleHelper::setCursorPosition(const Coordinate& position)
 	SetConsoleCursorPosition(getStdHandle(), coord);
 }
 
-void 
-ConsoleHelper::setCursorState(const bool& active)
-{
+void
+ConsoleHelper::setCursorState(const bool& active) {
 	CONSOLE_CURSOR_INFO cci = { sizeof(cci), active };
 	SetConsoleCursorInfo(getStdHandle(), &cci);
 }
 
-HANDLE 
-ConsoleHelper::getStdHandle()
-{
+HANDLE
+ConsoleHelper::getStdHandle() {
 	return GetStdHandle(STD_OUTPUT_HANDLE);
 }
 
-void 
-ConsoleHelper::drawWindow(const Coordinate& leftTopCoord, 
-						  const Coordinate& rightBottomCoord)
-{
+void
+ConsoleHelper::drawWindow(const Coordinate& leftTopCoord,
+	const Coordinate& rightBottomCoord) {
+
 	int x1 = leftTopCoord.getX();
 	int x2 = rightBottomCoord.getX();
 	int y1 = leftTopCoord.getY();
@@ -36,34 +33,34 @@ ConsoleHelper::drawWindow(const Coordinate& leftTopCoord,
 	int dY = y2 - y1;
 
 	setCursorPosition(leftTopCoord);
-	cout << static_cast<char>(LEFT_TOP_CORNER);
+	cout << static_cast<char>(WindowPart::LEFT_TOP_CORNER);
 	setCursorPosition({ x2, y1 });
-	cout << static_cast<char>(RIGHT_TOP_CORNER);
+	cout << static_cast<char>(WindowPart::RIGHT_TOP_CORNER);
 	setCursorPosition(rightBottomCoord);
-	cout << static_cast<char>(RIGHT_BOTTOM_CORNER);
+	cout << static_cast<char>(WindowPart::RIGHT_BOTTOM_CORNER);
 	setCursorPosition({ x1, y2 });
-	cout << static_cast<char>(LEFT_BOTTOM_CORNER);
+	cout << static_cast<char>(WindowPart::LEFT_BOTTOM_CORNER);
 
 
-	for (int i = 0; i < dX-1; i++) {
+	for (int i = 0; i < dX - 1; i++) {
 		setCursorPosition({ x1 + i + 1, y1 });
-		cout << static_cast<char>(HORIZONTAL_PART);
+		cout << static_cast<char>(WindowPart::HORIZONTAL_PART);
 		setCursorPosition({ x1 + i + 1, y2 });
-		cout << static_cast<char>(HORIZONTAL_PART);
+		cout << static_cast<char>(WindowPart::HORIZONTAL_PART);
 	}
 
-	for (int i = 0; i < dY-1; i++) {
+	for (int i = 0; i < dY - 1; i++) {
 		setCursorPosition({ x1, y1 + i + 1 });
-		cout << static_cast<char>(VERTICAL_PART);
+		cout << static_cast<char>(WindowPart::VERTICAL_PART);
 		setCursorPosition({ x2, y1 + i + 1 });
-		cout << static_cast<char>(VERTICAL_PART);
+		cout << static_cast<char>(WindowPart::VERTICAL_PART);
 	}
 }
 
-void 
-ConsoleHelper::clearWindow(const Coordinate& leftTopCoord, 
-						   const Coordinate& rightBottomCoord)
-{
+void
+ConsoleHelper::clearWindow(const Coordinate& leftTopCoord,
+	const Coordinate& rightBottomCoord) {
+
 	int x1 = leftTopCoord.getX();
 	int x2 = rightBottomCoord.getX();
 	int y1 = leftTopCoord.getY();
