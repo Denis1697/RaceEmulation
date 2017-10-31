@@ -10,7 +10,7 @@ void main()
 	GameProcessor   gameProcessor;
 	RaceField*      field;
 
-	int gameMode = consoleNotifier.startingMode() == 1;
+	int gameMode = consoleNotifier.startingMode();
 	if (gameMode == EnumHelper::OBSTACLE_MODE) {
 		field = new EasyField();
 	}
