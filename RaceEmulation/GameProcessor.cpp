@@ -4,7 +4,6 @@ GameProcessor::GameProcessor() {
 	raceField_ = nullptr;
 
 	nGameTicks_       = 0;
-	traveledDistance_ = 0;
 }
 
 GameProcessor::~GameProcessor() {
@@ -145,7 +144,6 @@ GameProcessor::computeGameTick() {
 	}
 
 	nGameTicks_++;
-	traveledDistance_ = nGameTicks_;
 
 	int drawSpeed = ONE_SECOND / static_cast<int>(car_.getCurrentSpeed());
 
@@ -185,41 +183,12 @@ GameProcessor::setRaceField(RaceField* raceField) {
 	raceField_ = raceField;
 }
 
-const Car & GameProcessor::getCar() const
-{
+const Car & GameProcessor::getCar() const {
 	return car_;
 }
 
-int GameProcessor::getTraveledDistance() const
-{
-	return traveledDistance_;
-}
-
-vector<Coordinate>
-GameProcessor::getStartingPartsCoordinates() const {
-	int nParts = car_.getPartsCount();
-
-	vector<Coordinate> parts(nParts);
-
-	int topX = raceField_->getWidth() / 2;
-	int topY = raceField_->getHeight() - 5;
-
-	parts[CarPart::LEFT_TOP_TIRE].setX(topX - 1);
-	parts[CarPart::LEFT_TOP_TIRE].setY(topY + 1);
-	parts[CarPart::LEFT_BOTTOM_TIRE].setX(topX - 1);
-	parts[CarPart::LEFT_BOTTOM_TIRE].setY(topY + 3);
-
-	parts[CarPart::CAR_HEAD].setX(topX);
-	parts[CarPart::CAR_HEAD].setY(topY);
-	parts[CarPart::CAR_BODY].setX(topX);
-	parts[CarPart::CAR_BODY].setY(topY + 2);
-
-	parts[CarPart::RIGHT_TOP_TIRE].setX(topX + 1);
-	parts[CarPart::RIGHT_TOP_TIRE].setY(topY + 1);
-	parts[CarPart::RIGHT_BOTTOM_TIRE].setX(topX + 1);
-	parts[CarPart::RIGHT_BOTTOM_TIRE].setY(topY + 3);
-
-	return parts;
+int GameProcessor::getTraveledDistance() const {
+	return nGameTicks_;
 }
 
 void
