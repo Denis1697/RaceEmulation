@@ -152,6 +152,7 @@
     <ClCompile Include="ConsoleNotifier.cpp" />
     <ClCompile Include="Coordinate.cpp" />
     <ClCompile Include="EasyField.cpp" />
+    <ClCompile Include="EnumHelper.cpp" />
     <ClCompile Include="GameProcessor.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="RaceField.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="EasyField.h" />
     <ClInclude Include="EnumHelper.h" />
+    <ClInclude Include="FileProcessor.h" />
     <ClInclude Include="GameProcessor.h" />
     <ClInclude Include="IMessage.h" />
     <ClInclude Include="Includes.h" />

@@ -8,21 +8,20 @@ public:
 	~GameProcessor();
 
 	bool         isCarCrushed(const int& direction = 0)          const;
-	int          getTraveledDistance()                           const;
 	void         computeGameTick();
 	void         computeCarMove(const int& direction);
-	void         setRaceField(RaceField* raceField);
+	int          getTraveledDistance()                           const;
+	void         setRaceField(RaceField* raceField);		        
 	const Car&   getCar()                                        const;
+	void         setCar(const Car& car);
 	void         drawCar()                                       const;
 	void         placeCar(const vector<Coordinate>& oldPosition);
-	void         setCar(const Car& car);
-private:	     
+private:	            
 	void         alternateBorders()                              const;
 
-	RaceField*  raceField_;
-	Car         car_;
-	int         nGameTicks_;
-	const int   ONE_SECOND = 1000;
+	RaceField*   raceField_;
+	Car          car_;
+	int          nGameTicks_;
 };
 
 #endif

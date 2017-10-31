@@ -8,10 +8,8 @@ public:
 	bool        leaveTheGame()                                           const;
 	void        setPause()                                               const;
 	int         startingMode()                                           const;
+	//int         menu()                                                   const;
 	static void gameOver();
-private:	   
-	const int  START_X_OFFSET = 44;
-	const int  START_Y_OFFSET = 4;
 };
 
 #endif

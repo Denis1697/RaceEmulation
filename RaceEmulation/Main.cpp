@@ -4,19 +4,14 @@ void main()
 {
 	srand(static_cast<unsigned int>(time(0)));
 
-	const int  OBSTACLE_MODE = 1;
-	const int  CAR_MODE      = 2;
-	const bool STATUS_ACTIVE = true;
-	const bool STATUS_EXIT   = true;
-	bool       gameStatus    = STATUS_ACTIVE;
+	bool gameStatus = EnumHelper::STATUS_ACTIVE;
 
 	ConsoleNotifier consoleNotifier;
 	GameProcessor   gameProcessor;
 	RaceField*      field;
 
 	int gameMode = consoleNotifier.startingMode() == 1;
-
-	if (gameMode == OBSTACLE_MODE) {
+	if (gameMode == EnumHelper::OBSTACLE_MODE) {
 		field = new EasyField();
 	}
 	else {
@@ -25,10 +20,10 @@ void main()
 
 	int xOffset = field->getWidth() / 2;
 	int yOffset = field->getHeight() - 5;
-	Coordinate topCarCoord(xOffset, yOffset);
 
-	Car   car(topCarCoord);
-	Timer timer;
+	Coordinate topCarCoord(xOffset, yOffset);
+	Car        car(topCarCoord);
+	Timer      timer;
 
 	gameProcessor.setRaceField(field);
 	gameProcessor.setCar(car);
@@ -38,7 +33,7 @@ void main()
 
 	ConsoleHelper::setCursorState(false);
 
-	while (gameStatus == STATUS_ACTIVE) {
+	while (gameStatus == EnumHelper::STATUS_ACTIVE) {
 
 		while (_kbhit() == 0) {
 			timer.calculateTime();
@@ -54,10 +49,10 @@ void main()
 
 		int key = _getch();
 
-		bool wasArrowPressed  = (key == EnumHelper::Direction::DIRECTION_LEFT);
-		     wasArrowPressed |= (key == EnumHelper::Direction::DIRECTION_RIGHT);
-		     wasArrowPressed |= (key == EnumHelper::Direction::DIRECTION_UP);
-		     wasArrowPressed |= (key == EnumHelper::Direction::DIRECTION_DOWN);
+		bool wasArrowPressed  = (key == EnumHelper::eDirection::DIRECTION_LEFT);
+		     wasArrowPressed |= (key == EnumHelper::eDirection::DIRECTION_RIGHT);
+		     wasArrowPressed |= (key == EnumHelper::eDirection::DIRECTION_UP);
+		     wasArrowPressed |= (key == EnumHelper::eDirection::DIRECTION_DOWN);
 
 		if (wasArrowPressed) {
 			gameProcessor.computeCarMove(key);
@@ -65,13 +60,15 @@ void main()
 		}
 		else {
 			switch (key) {
-			    case EnumHelper::ServiceButton::ENTER:
+			    case EnumHelper::eServiceButton::ENTER:
 			        consoleNotifier.setPause();
 			        break;
-			    case EnumHelper::ServiceButton::ESCAPE:
+			    case EnumHelper::eServiceButton::ESCAPE:
 					if (consoleNotifier.leaveTheGame() == true) {
 						gameStatus = false;
 					}
+				default:
+					break;
 			}
 		}
 	}

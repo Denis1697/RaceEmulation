@@ -4,6 +4,7 @@
 class IMessage 
 {
 public:
+	//virtual int    menu()                                       const = 0;
 	virtual bool   leaveTheGame()                               const = 0;
 	virtual void   setPause()                                   const = 0;
 	virtual int    startingMode()                               const = 0;

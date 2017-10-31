@@ -1,10 +1,5 @@
 #include "Includes.h"
-#include "Car.h"
-GameProcessor::GameProcessor() {
-	raceField_ = nullptr;
-
-	nGameTicks_       = 0;
-}
+GameProcessor::GameProcessor() : raceField_(nullptr), nGameTicks_(0) {}
 
 GameProcessor::~GameProcessor() {
 	delete raceField_;
@@ -15,38 +10,40 @@ bool
 GameProcessor::isCarCrushed(const int& direction) const {
 	vector<Coordinate> parts = car_.getPartsCoords();
 
-	int topCarX = parts[EnumHelper::CarPart::CAR_HEAD].getX();
-	int topCarY = parts[EnumHelper::CarPart::CAR_HEAD].getY();
+	int topCarX = parts[EnumHelper::eCarPart::CAR_HEAD].getX();
+	int topCarY = parts[EnumHelper::eCarPart::CAR_HEAD].getY();
 
 	int carWidth  = 3;
 	int carHeight = 3;
 
 	switch (direction) {
-	case EnumHelper::Direction::DIRECTION_UP:
-		for (int i = 0; i < carWidth; i++) {
-			if (raceField_->getBlockType({ topCarX + i - 1,
-				topCarY }) == EnumHelper::OBSTACLE) {
-				return true;
-			}
-		}
-		break;
-	case EnumHelper::Direction::DIRECTION_LEFT:
-		for (int i = 0; i < carHeight; i++) {
-			if (raceField_->getBlockType({ topCarX - 1,
-				topCarY + i + 1 }) == EnumHelper::OBSTACLE) {
-				return true;
-			}
-		}
-		break;
-	case EnumHelper::Direction::DIRECTION_RIGHT:
-		for (int i = 0; i < carHeight; i++) {
-			if (raceField_->getBlockType({ topCarX + 1,
-				topCarY + i + 1 }) == EnumHelper::OBSTACLE) {
-				return true;
-			}
-		}
-
-		break;
+	    case EnumHelper::eDirection::DIRECTION_UP:
+	    	for (int i = 0; i < carWidth; i++) {
+	    		if (raceField_->getBlockType({ topCarX + i - 1,
+	    			topCarY }) == EnumHelper::OBSTACLE) {
+	    			return true;
+	    		}
+	    	}
+	    	break;
+	    case EnumHelper::eDirection::DIRECTION_LEFT:
+	    	for (int i = 0; i < carHeight; i++) {
+	    		if (raceField_->getBlockType({ topCarX - 1,
+	    			topCarY + i + 1 }) == EnumHelper::OBSTACLE) {
+	    			return true;
+	    		}
+	    	}
+	    	break;
+	    case EnumHelper::eDirection::DIRECTION_RIGHT:
+	    	for (int i = 0; i < carHeight; i++) {
+	    		if (raceField_->getBlockType({ topCarX + 1,
+	    			topCarY + i + 1 }) == EnumHelper::OBSTACLE) {
+	    			return true;
+	    		}
+	    	}
+	    
+	    	break;
+	    default:
+	    	break;
 	}
 
 	return false;
@@ -54,40 +51,40 @@ GameProcessor::isCarCrushed(const int& direction) const {
 
 void
 GameProcessor::placeCar(const vector<Coordinate>& oldPosition) {
-	raceField_->setBlockType(oldPosition[EnumHelper::CarPart::LEFT_TOP_TIRE],
-		EnumHelper::BlockType::EMPTY);
-	raceField_->setBlockType(oldPosition[EnumHelper::CarPart::LEFT_BOTTOM_TIRE],
-		EnumHelper::BlockType::EMPTY);
-	raceField_->setBlockType(oldPosition[EnumHelper::CarPart::CAR_HEAD],
-		EnumHelper::BlockType::EMPTY);
-	raceField_->setBlockType(oldPosition[EnumHelper::CarPart::CAR_BODY],
-		EnumHelper::BlockType::EMPTY);
-	raceField_->setBlockType(oldPosition[EnumHelper::CarPart::RIGHT_TOP_TIRE],
-		EnumHelper::BlockType::EMPTY);
-	raceField_->setBlockType(oldPosition[EnumHelper::CarPart::RIGHT_BOTTOM_TIRE],
-		EnumHelper::BlockType::EMPTY);
+	raceField_->setBlockType(oldPosition[EnumHelper::eCarPart::LEFT_TOP_TIRE],
+		EnumHelper::eBlockType::EMPTY);
+	raceField_->setBlockType(oldPosition[EnumHelper::eCarPart::LEFT_BOTTOM_TIRE],
+		EnumHelper::eBlockType::EMPTY);
+	raceField_->setBlockType(oldPosition[EnumHelper::eCarPart::CAR_HEAD],
+		EnumHelper::eBlockType::EMPTY);
+	raceField_->setBlockType(oldPosition[EnumHelper::eCarPart::CAR_BODY],
+		EnumHelper::eBlockType::EMPTY);
+	raceField_->setBlockType(oldPosition[EnumHelper::eCarPart::RIGHT_TOP_TIRE],
+		EnumHelper::eBlockType::EMPTY);
+	raceField_->setBlockType(oldPosition[EnumHelper::eCarPart::RIGHT_BOTTOM_TIRE],
+		EnumHelper::eBlockType::EMPTY);
 
-	raceField_->drawBlock(oldPosition[EnumHelper::CarPart::LEFT_TOP_TIRE]);
-	raceField_->drawBlock(oldPosition[EnumHelper::CarPart::LEFT_BOTTOM_TIRE]);
-	raceField_->drawBlock(oldPosition[EnumHelper::CarPart::CAR_HEAD]);
-	raceField_->drawBlock(oldPosition[EnumHelper::CarPart::CAR_BODY]);
-	raceField_->drawBlock(oldPosition[EnumHelper::CarPart::RIGHT_TOP_TIRE]);
-	raceField_->drawBlock(oldPosition[EnumHelper::CarPart::RIGHT_BOTTOM_TIRE]);
+	raceField_->drawBlock(oldPosition[EnumHelper::eCarPart::LEFT_TOP_TIRE]);
+	raceField_->drawBlock(oldPosition[EnumHelper::eCarPart::LEFT_BOTTOM_TIRE]);
+	raceField_->drawBlock(oldPosition[EnumHelper::eCarPart::CAR_HEAD]);
+	raceField_->drawBlock(oldPosition[EnumHelper::eCarPart::CAR_BODY]);
+	raceField_->drawBlock(oldPosition[EnumHelper::eCarPart::RIGHT_TOP_TIRE]);
+	raceField_->drawBlock(oldPosition[EnumHelper::eCarPart::RIGHT_BOTTOM_TIRE]);
 
 	vector<Coordinate> parts = car_.getPartsCoords();
 
-	raceField_->setBlockType(parts[EnumHelper::CarPart::LEFT_TOP_TIRE],
-		EnumHelper::BlockType::CAR_TIRE);
-	raceField_->setBlockType(parts[EnumHelper::CarPart::LEFT_BOTTOM_TIRE],
-		EnumHelper::BlockType::CAR_TIRE);
-	raceField_->setBlockType(parts[EnumHelper::CarPart::CAR_HEAD],
-		EnumHelper::BlockType::CAR_TOP);
-	raceField_->setBlockType(parts[EnumHelper::CarPart::CAR_BODY],
-		EnumHelper::BlockType::CAR_TORSO);
-	raceField_->setBlockType(parts[EnumHelper::CarPart::RIGHT_TOP_TIRE],
-		EnumHelper::BlockType::CAR_TIRE);
-	raceField_->setBlockType(parts[EnumHelper::CarPart::RIGHT_BOTTOM_TIRE],
-		EnumHelper::BlockType::CAR_TIRE);
+	raceField_->setBlockType(parts[EnumHelper::eCarPart::LEFT_TOP_TIRE],
+		EnumHelper::eBlockType::CAR_TIRE);
+	raceField_->setBlockType(parts[EnumHelper::eCarPart::LEFT_BOTTOM_TIRE],
+		EnumHelper::eBlockType::CAR_TIRE);
+	raceField_->setBlockType(parts[EnumHelper::eCarPart::CAR_HEAD],
+		EnumHelper::eBlockType::CAR_TOP);
+	raceField_->setBlockType(parts[EnumHelper::eCarPart::CAR_BODY],
+		EnumHelper::eBlockType::CAR_TORSO);
+	raceField_->setBlockType(parts[EnumHelper::eCarPart::RIGHT_TOP_TIRE],
+		EnumHelper::eBlockType::CAR_TIRE);
+	raceField_->setBlockType(parts[EnumHelper::eCarPart::RIGHT_BOTTOM_TIRE],
+		EnumHelper::eBlockType::CAR_TIRE);
 }
 
 void
@@ -101,12 +98,12 @@ GameProcessor::computeGameTick() {
 			int upperBlockType   = raceField_->getBlockType({ i, j - 1 });
 			int currentBlockType = raceField_->getBlockType({ i, j });
 
-			bool isItCar  = (upperBlockType == EnumHelper::BlockType::CAR_TIRE);
-			     isItCar |= (upperBlockType == EnumHelper::BlockType::CAR_TORSO);
-			     isItCar |= (upperBlockType == EnumHelper::BlockType::CAR_TOP);
-			     isItCar |= (currentBlockType == EnumHelper::BlockType::CAR_TIRE);
-			     isItCar |= (currentBlockType == EnumHelper::BlockType::CAR_TORSO);
-			     isItCar |= (currentBlockType == EnumHelper::BlockType::CAR_TOP);
+			bool isItCar  = (upperBlockType == EnumHelper::eBlockType::CAR_TIRE);
+			     isItCar |= (upperBlockType == EnumHelper::eBlockType::CAR_TORSO);
+			     isItCar |= (upperBlockType == EnumHelper::eBlockType::CAR_TOP);
+			     isItCar |= (currentBlockType == EnumHelper::eBlockType::CAR_TIRE);
+			     isItCar |= (currentBlockType == EnumHelper::eBlockType::CAR_TORSO);
+			     isItCar |= (currentBlockType == EnumHelper::eBlockType::CAR_TOP);
 
 			if (!isItCar) {
 				raceField_->setBlockType({ i, j }, upperBlockType);
@@ -139,13 +136,14 @@ GameProcessor::computeGameTick() {
 		}
 	}
 
-	if (isCarCrushed(EnumHelper::Direction::DIRECTION_UP)) {
+	if (isCarCrushed(EnumHelper::eDirection::DIRECTION_UP)) {
 		ConsoleNotifier::gameOver();
 	}
 
 	nGameTicks_++;
-
-	int drawSpeed = ONE_SECOND / static_cast<int>(car_.getCurrentSpeed());
+	
+	int currentSpeed = car_.getCurrentSpeed();
+	int drawSpeed = EnumHelper::ONE_SECOND / currentSpeed;
 
 	Sleep(drawSpeed);
 }
@@ -183,11 +181,13 @@ GameProcessor::setRaceField(RaceField* raceField) {
 	raceField_ = raceField;
 }
 
-const Car & GameProcessor::getCar() const {
+const Car &
+GameProcessor::getCar() const {
 	return car_;
 }
 
-int GameProcessor::getTraveledDistance() const {
+int
+GameProcessor::getTraveledDistance() const {
 	return nGameTicks_;
 }
 
@@ -214,10 +214,10 @@ void
 GameProcessor::drawCar() const {
 	vector<Coordinate> parts = car_.getPartsCoords();
 
-	raceField_->drawBlock(parts[EnumHelper::CarPart::LEFT_TOP_TIRE]);
-	raceField_->drawBlock(parts[EnumHelper::CarPart::LEFT_BOTTOM_TIRE]);
-	raceField_->drawBlock(parts[EnumHelper::CarPart::CAR_HEAD]);
-	raceField_->drawBlock(parts[EnumHelper::CarPart::CAR_BODY]);
-	raceField_->drawBlock(parts[EnumHelper::CarPart::RIGHT_TOP_TIRE]);
-	raceField_->drawBlock(parts[EnumHelper::CarPart::RIGHT_BOTTOM_TIRE]);
+	raceField_->drawBlock(parts[EnumHelper::eCarPart::LEFT_TOP_TIRE]);
+	raceField_->drawBlock(parts[EnumHelper::eCarPart::LEFT_BOTTOM_TIRE]);
+	raceField_->drawBlock(parts[EnumHelper::eCarPart::CAR_HEAD]);
+	raceField_->drawBlock(parts[EnumHelper::eCarPart::CAR_BODY]);
+	raceField_->drawBlock(parts[EnumHelper::eCarPart::RIGHT_TOP_TIRE]);
+	raceField_->drawBlock(parts[EnumHelper::eCarPart::RIGHT_BOTTOM_TIRE]);
 }

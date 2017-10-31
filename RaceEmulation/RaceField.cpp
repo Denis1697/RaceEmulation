@@ -18,9 +18,8 @@ RaceField::drawBlock(const Coordinate& coordinate) const {
 		return;
 	}
 
-	const int ARRAY_OFFSET = 1;
-
-	ConsoleHelper::setCursorPosition({ x + ARRAY_OFFSET, y + ARRAY_OFFSET });
+	ConsoleHelper::setCursorPosition({ x + EnumHelper::ARRAY_OFFSET, 
+		                               y + EnumHelper::ARRAY_OFFSET });
 	cout << static_cast<char>(raceField_[y][x]);
 }
 
@@ -69,12 +68,12 @@ RaceField::isNotInField(const Coordinate& coordinate) const {
 	return isPointNotInField;
 }
 
-int
+ int
 RaceField::getWidth() const {
 	return FIELD_WIDTH;
 }
 
-int
+ int
 RaceField::getHeight() const {
 	return FIELD_HEIGHT;
 }

@@ -1,9 +1,6 @@
 #include "Includes.h"
 
-Coordinate::Coordinate(const int& x, const int& y) {
-	x_ = x;
-	y_ = y;
-}
+Coordinate::Coordinate(const int& x, const int& y) : x_(x), y_(y) {}
 
 int
 Coordinate::getX() const {

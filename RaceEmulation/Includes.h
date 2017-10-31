@@ -23,5 +23,6 @@ using namespace std;
 #include "IMessage.h"
 #include "ConsoleNotifier.h"
 #include "EnumHelper.h"
+#include "FileProcessor.h"
 
 #endif

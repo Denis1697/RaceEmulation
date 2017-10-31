@@ -3,7 +3,7 @@
 ComplicatedField::ComplicatedField() {
 	for (int j = 0; j < FIELD_HEIGHT; j++) {
 		for (int i = 0; i < FIELD_WIDTH; i++) {
-			EnumHelper::BlockType currentBorder = 
+			EnumHelper::eBlockType currentBorder = 
 				(j % 2 == 0 ? EnumHelper::BORDER_ONE : EnumHelper::BORDER_TWO);
 
 			if (i == 0 || i == FIELD_WIDTH - 1) {
@@ -29,8 +29,6 @@ void
 ComplicatedField::generateCar(int roadPart, bool isFirst) {
 	const int LEFT_ROAD_PART  = 1;
 	const int RIGHT_ROAD_PART = 2;
-	const int CAR_HEAD_TOP    = 0;
-	const int CAR_HEAD_BOTTOM = 3;
 
 	int randomSeed, xOffset;
 	int headX, headY;
@@ -45,26 +43,28 @@ ComplicatedField::generateCar(int roadPart, bool isFirst) {
 	}
 
 	switch (roadPart) {
-	case LEFT_ROAD_PART:
-		headX = xOffset + randomSeed;
-		headY = CAR_HEAD_BOTTOM;
-
-		buffer_[headY - 2][headX]     = EnumHelper::OBSTACLE;
-		buffer_[headY - 1][headX - 1] = EnumHelper::OBSTACLE;
-		buffer_[headY - 3][headX - 1] = EnumHelper::OBSTACLE;
-		buffer_[headY - 1][headX + 1] = EnumHelper::OBSTACLE;
-		buffer_[headY - 3][headX + 1] = EnumHelper::OBSTACLE;
-		break;
-	case RIGHT_ROAD_PART:
-		headX = FIELD_WIDTH - xOffset + randomSeed;
-		headY = CAR_HEAD_TOP;
-
-		buffer_[headY + 2][headX]     = EnumHelper::OBSTACLE;
-		buffer_[headY + 1][headX - 1] = EnumHelper::OBSTACLE;
-		buffer_[headY + 3][headX - 1] = EnumHelper::OBSTACLE;
-		buffer_[headY + 1][headX + 1] = EnumHelper::OBSTACLE;
-		buffer_[headY + 3][headX + 1] = EnumHelper::OBSTACLE;
-		break;
+	    case LEFT_ROAD_PART:
+	    	headX = xOffset + randomSeed;
+	    	headY = EnumHelper::CAR_HEAD_BOTTOM;
+	    
+	    	buffer_[headY - 2][headX]     = EnumHelper::OBSTACLE;
+	    	buffer_[headY - 1][headX - 1] = EnumHelper::OBSTACLE;
+	    	buffer_[headY - 3][headX - 1] = EnumHelper::OBSTACLE;
+	    	buffer_[headY - 1][headX + 1] = EnumHelper::OBSTACLE;
+	    	buffer_[headY - 3][headX + 1] = EnumHelper::OBSTACLE;
+	    	break;
+	    case RIGHT_ROAD_PART:
+	    	headX = FIELD_WIDTH - xOffset + randomSeed;
+	    	headY = EnumHelper::CAR_HEAD_TOP;
+	    
+	    	buffer_[headY + 2][headX]     = EnumHelper::OBSTACLE;
+	    	buffer_[headY + 1][headX - 1] = EnumHelper::OBSTACLE;
+	    	buffer_[headY + 3][headX - 1] = EnumHelper::OBSTACLE;
+	    	buffer_[headY + 1][headX + 1] = EnumHelper::OBSTACLE;
+	    	buffer_[headY + 3][headX + 1] = EnumHelper::OBSTACLE;
+	    	break;
+		default:
+			break;
 	}
 
 	buffer_[headY][headX] = EnumHelper::OBSTACLE;

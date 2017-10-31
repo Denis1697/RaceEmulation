@@ -6,21 +6,24 @@ ConsoleNotifier::showStatistics(const int& distance,
 	                            const double& speed) const {
 	int windowWidth  = 26;
 	int windowHeight = 4;
-	int firstColumn  = START_X_OFFSET + 1;
+	int firstColumn  = EnumHelper::START_X_OFFSET + 1;
 
-	Coordinate leftTop  = { START_X_OFFSET, START_Y_OFFSET };
-	Coordinate rightBot = { START_X_OFFSET + windowWidth,
-		                    START_Y_OFFSET + windowHeight };
+	Coordinate leftTop  = { EnumHelper::START_X_OFFSET, EnumHelper::START_Y_OFFSET };
+	Coordinate rightBot = { EnumHelper::START_X_OFFSET + windowWidth,
+		                    EnumHelper::START_Y_OFFSET + windowHeight };
 
 	ConsoleHelper::drawWindow(leftTop, rightBot);
 
-	ConsoleHelper::setCursorPosition({ firstColumn, START_Y_OFFSET + 1 });
+	ConsoleHelper::setCursorPosition({ firstColumn, 
+		                               EnumHelper::START_Y_OFFSET + 1 });
 	cout <<  "Time: " << setw(8) << time;
 
-	ConsoleHelper::setCursorPosition({ firstColumn, START_Y_OFFSET + 2 });
+	ConsoleHelper::setCursorPosition({ firstColumn, 
+		                               EnumHelper::START_Y_OFFSET + 2 });
 	cout << "Traveled distance: " << distance << " m";
 
-	ConsoleHelper::setCursorPosition({ firstColumn, START_Y_OFFSET + 3 });
+	ConsoleHelper::setCursorPosition({ firstColumn, 
+		                               EnumHelper::START_Y_OFFSET + 3 });
 	cout << "Car speed: " << setw(5) << speed << " m/s";
 }
 
@@ -30,14 +33,14 @@ ConsoleNotifier::leaveTheGame() const {
 	const int YES_ANSWER = 1;
 	const int NO_ANSWER  = 2;
 
-	int leftTopY     = START_Y_OFFSET + 5;
+	int leftTopY     = EnumHelper::START_Y_OFFSET + 5;
 	int windowWidth  = 16;
 	int windowHeight = 5;
-	int firstColumn  = START_X_OFFSET + 1;
+	int firstColumn  = EnumHelper::START_X_OFFSET + 1;
 
-	Coordinate answerPosition = { START_X_OFFSET + 9, leftTopY + 4 };
-	Coordinate leftTop        = { START_X_OFFSET, leftTopY };
-	Coordinate rightBot       = { START_X_OFFSET + windowWidth,
+	Coordinate answerPosition = { EnumHelper::START_X_OFFSET + 9, leftTopY + 4 };
+	Coordinate leftTop        = { EnumHelper::START_X_OFFSET, leftTopY };
+	Coordinate rightBot       = { EnumHelper::START_X_OFFSET + windowWidth,
 		                          leftTopY + windowHeight };
 
 	string leaveTheGameText[4] = {
@@ -82,13 +85,13 @@ ConsoleNotifier::leaveTheGame() const {
 
 void 
 ConsoleNotifier::setPause() const {
-	int leftTopY     = START_Y_OFFSET + 5;
+	int leftTopY     = EnumHelper::START_Y_OFFSET + 5;
 	int windowWidth  = 6;
 	int windowHeight = 2;
-	int firstColumn  = START_X_OFFSET + 1;
+	int firstColumn  = EnumHelper::START_X_OFFSET + 1;
 
-	Coordinate leftTop  = { START_X_OFFSET, leftTopY };
-	Coordinate rightBot = { START_X_OFFSET + windowWidth,
+	Coordinate leftTop  = { EnumHelper::START_X_OFFSET, leftTopY };
+	Coordinate rightBot = { EnumHelper::START_X_OFFSET + windowWidth,
 		                    leftTopY + windowHeight };
 
 	ConsoleHelper::drawWindow(leftTop, rightBot);
@@ -102,20 +105,19 @@ ConsoleNotifier::setPause() const {
 
 void 
 ConsoleNotifier::gameOver() {
-	const int START_X_OFFSET = 44;
-	const int START_Y_OFFSET = 4;
 
-	int leftTopY     = START_Y_OFFSET + 5;
+	int leftTopY     = EnumHelper::START_Y_OFFSET + 5;
 	int windowWidth  = 31;
 	int windowHeight = 2;
 
-	Coordinate leftTop  = { START_X_OFFSET, leftTopY };
-	Coordinate rightBot = { START_X_OFFSET + windowWidth,
+	Coordinate leftTop  = { EnumHelper::START_X_OFFSET, 
+		                    leftTopY };
+	Coordinate rightBot = { EnumHelper::START_X_OFFSET + windowWidth,
 		                    leftTopY + windowHeight };
 
 	ConsoleHelper::drawWindow(leftTop, rightBot);
 
-	ConsoleHelper::setCursorPosition({ START_X_OFFSET + 1, leftTopY + 1 });
+	ConsoleHelper::setCursorPosition({ EnumHelper::START_X_OFFSET + 1, leftTopY + 1 });
 	cout << "Sorry, your car has crushed...";
 
 	system("pause > NULL");
@@ -124,17 +126,17 @@ ConsoleNotifier::gameOver() {
 
 int
 ConsoleNotifier::startingMode() const {
-	const int OBSTACLE_ANSWER = 1;
-	const int CAR_ANSWER = 2;
 
 	int windowWidth  = 16;
 	int windowHeight = 5;
-	int firstColumn  = START_X_OFFSET + 1;
+	int firstColumn  = EnumHelper::START_X_OFFSET + 1;
 
-	Coordinate answerPosition = { START_X_OFFSET + 9, START_Y_OFFSET + 4 };
-	Coordinate leftTop        = { START_X_OFFSET, START_Y_OFFSET };
-	Coordinate rightBot       = { START_X_OFFSET + windowWidth,
-		                          START_Y_OFFSET + windowHeight };
+	Coordinate answerPosition = { EnumHelper::START_X_OFFSET + 9, 
+		                          EnumHelper::START_Y_OFFSET + 4 };
+	Coordinate leftTop        = { EnumHelper::START_X_OFFSET, 
+		                          EnumHelper::START_Y_OFFSET };
+	Coordinate rightBot       = { EnumHelper::START_X_OFFSET + windowWidth,
+		                          EnumHelper::START_Y_OFFSET + windowHeight };
 
 	string startingModeText[4] = {
 		"Select the mode",
@@ -146,22 +148,23 @@ ConsoleNotifier::startingMode() const {
 	ConsoleHelper::drawWindow(leftTop, rightBot);
 
 	for (int i = 1; i < windowHeight; i++) {
-		ConsoleHelper::setCursorPosition({ firstColumn, START_Y_OFFSET + i });
+		ConsoleHelper::setCursorPosition({ firstColumn, 
+			                               EnumHelper::START_Y_OFFSET + i });
 		cout << startingModeText[i - 1];
 	}
 
 	int answer;
 	cin >> answer;
 
-	bool isAnswerIncorrect  = answer != OBSTACLE_ANSWER;
-	     isAnswerIncorrect &= answer != CAR_ANSWER;
+	bool isAnswerIncorrect  = answer != EnumHelper::OBSTACLE_ANSWER;
+	     isAnswerIncorrect &= answer != EnumHelper::CAR_ANSWER;
 
 	while (isAnswerIncorrect) {
 		ConsoleHelper::setCursorPosition(answerPosition);
 		cin >> answer;
 
-		isAnswerIncorrect = answer != OBSTACLE_ANSWER;
-		isAnswerIncorrect &= answer != CAR_ANSWER;
+		isAnswerIncorrect  = answer != EnumHelper::OBSTACLE_ANSWER;
+		isAnswerIncorrect &= answer != EnumHelper::CAR_ANSWER;
 	}
 
 	ConsoleHelper::clearWindow(leftTop, rightBot);
