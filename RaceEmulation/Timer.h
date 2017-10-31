@@ -5,8 +5,6 @@ class Timer
 {
 public:
 	Timer();
-	Timer(const Timer& timer);
-	Timer& operator=(const Timer& timer);
 
 	void        start();
 	void        pause();

@@ -164,6 +164,7 @@
     <ClInclude Include="ConsoleNotifier.h" />
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="EasyField.h" />
+    <ClInclude Include="EnumHelper.h" />
     <ClInclude Include="GameProcessor.h" />
     <ClInclude Include="Includes.h" />
     <ClInclude Include="RaceField.h" />

@@ -3,13 +3,14 @@
 ComplicatedField::ComplicatedField() {
 	for (int j = 0; j < FIELD_HEIGHT; j++) {
 		for (int i = 0; i < FIELD_WIDTH; i++) {
-			BlockType currentBorder = (j % 2 == 0 ? BORDER_ONE : BORDER_TWO);
+			EnumHelper::BlockType currentBorder = 
+				(j % 2 == 0 ? EnumHelper::BORDER_ONE : EnumHelper::BORDER_TWO);
 
 			if (i == 0 || i == FIELD_WIDTH - 1) {
 				raceField_[j][i] = currentBorder;
 			}
 			else {
-				raceField_[j][i] = EMPTY;
+				raceField_[j][i] = EnumHelper::EMPTY;
 			}
 		}
 	}
@@ -48,25 +49,25 @@ ComplicatedField::generateCar(int roadPart, bool isFirst) {
 		headX = xOffset + randomSeed;
 		headY = CAR_HEAD_BOTTOM;
 
-		buffer_[headY - 2][headX]     = OBSTACLE;
-		buffer_[headY - 1][headX - 1] = OBSTACLE;
-		buffer_[headY - 3][headX - 1] = OBSTACLE;
-		buffer_[headY - 1][headX + 1] = OBSTACLE;
-		buffer_[headY - 3][headX + 1] = OBSTACLE;
+		buffer_[headY - 2][headX]     = EnumHelper::OBSTACLE;
+		buffer_[headY - 1][headX - 1] = EnumHelper::OBSTACLE;
+		buffer_[headY - 3][headX - 1] = EnumHelper::OBSTACLE;
+		buffer_[headY - 1][headX + 1] = EnumHelper::OBSTACLE;
+		buffer_[headY - 3][headX + 1] = EnumHelper::OBSTACLE;
 		break;
 	case RIGHT_ROAD_PART:
 		headX = FIELD_WIDTH - xOffset + randomSeed;
 		headY = CAR_HEAD_TOP;
 
-		buffer_[headY + 2][headX]     = OBSTACLE;
-		buffer_[headY + 1][headX - 1] = OBSTACLE;
-		buffer_[headY + 3][headX - 1] = OBSTACLE;
-		buffer_[headY + 1][headX + 1] = OBSTACLE;
-		buffer_[headY + 3][headX + 1] = OBSTACLE;
+		buffer_[headY + 2][headX]     = EnumHelper::OBSTACLE;
+		buffer_[headY + 1][headX - 1] = EnumHelper::OBSTACLE;
+		buffer_[headY + 3][headX - 1] = EnumHelper::OBSTACLE;
+		buffer_[headY + 1][headX + 1] = EnumHelper::OBSTACLE;
+		buffer_[headY + 3][headX + 1] = EnumHelper::OBSTACLE;
 		break;
 	}
 
-	buffer_[headY][headX] = OBSTACLE;
+	buffer_[headY][headX] = EnumHelper::OBSTACLE;
 }
 
 
@@ -86,7 +87,7 @@ void
 ComplicatedField::clearBuffer() {
 	for (int j = 0; j < BUFFER_HEIGHT; j++) {
 		for (int i = 0; i < FIELD_WIDTH; i++) {
-			buffer_[j][i] = EMPTY;
+			buffer_[j][i] = EnumHelper::EMPTY;
 		}
 	}
 }
@@ -99,7 +100,7 @@ ComplicatedField::placeObstacle() {
 		for (int i = 0; i < FIELD_WIDTH; i++) {
 			int bufferBlockType = getBufferBlockType({ i, j });
 
-			if (bufferBlockType == BlockType::OBSTACLE) {
+			if (bufferBlockType == EnumHelper::OBSTACLE) {
 				setBlockType({ i, j }, bufferBlockType);
 			}
 

@@ -83,5 +83,8 @@
     <ClInclude Include="ConsoleNotifier.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="EnumHelper.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

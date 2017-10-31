@@ -54,10 +54,10 @@ void main()
 
 		int key = _getch();
 
-		bool wasArrowPressed  = (key == Direction::DIRECTION_LEFT);
-		     wasArrowPressed |= (key == Direction::DIRECTION_RIGHT);
-		     wasArrowPressed |= (key == Direction::DIRECTION_UP);
-		     wasArrowPressed |= (key == Direction::DIRECTION_DOWN);
+		bool wasArrowPressed  = (key == EnumHelper::Direction::DIRECTION_LEFT);
+		     wasArrowPressed |= (key == EnumHelper::Direction::DIRECTION_RIGHT);
+		     wasArrowPressed |= (key == EnumHelper::Direction::DIRECTION_UP);
+		     wasArrowPressed |= (key == EnumHelper::Direction::DIRECTION_DOWN);
 
 		if (wasArrowPressed) {
 			gameProcessor.computeCarMove(key);
@@ -65,10 +65,10 @@ void main()
 		}
 		else {
 			switch (key) {
-			    case ServiceButton::ENTER:
+			    case EnumHelper::ServiceButton::ENTER:
 			        consoleNotifier.setPause();
 			        break;
-			    case ServiceButton::ESCAPE:
+			    case EnumHelper::ServiceButton::ESCAPE:
 					if (consoleNotifier.leaveTheGame() == true) {
 						gameStatus = false;
 					}

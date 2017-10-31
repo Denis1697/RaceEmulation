@@ -13,20 +13,20 @@ Car::Car(const Coordinate& carTop) {
 	int x = carTop.getX();
 	int y = carTop.getY();
 
-	carParts_->at(CarPart::LEFT_TOP_TIRE).setX(x - 1);
-	carParts_->at(CarPart::LEFT_TOP_TIRE).setY(y + 1);
-	carParts_->at(CarPart::LEFT_BOTTOM_TIRE).setX(x - 1);
-	carParts_->at(CarPart::LEFT_BOTTOM_TIRE).setY(y + 3);
+	carParts_->at(EnumHelper::CarPart::LEFT_TOP_TIRE).setX(x - 1);
+	carParts_->at(EnumHelper::CarPart::LEFT_TOP_TIRE).setY(y + 1);
+	carParts_->at(EnumHelper::CarPart::LEFT_BOTTOM_TIRE).setX(x - 1);
+	carParts_->at(EnumHelper::CarPart::LEFT_BOTTOM_TIRE).setY(y + 3);
 
-	carParts_->at(CarPart::CAR_HEAD).setX(x);
-	carParts_->at(CarPart::CAR_HEAD).setY(y);
-	carParts_->at(CarPart::CAR_BODY).setX(x);
-	carParts_->at(CarPart::CAR_BODY).setY(y + 2);
+	carParts_->at(EnumHelper::CarPart::CAR_HEAD).setX(x);
+	carParts_->at(EnumHelper::CarPart::CAR_HEAD).setY(y);
+	carParts_->at(EnumHelper::CarPart::CAR_BODY).setX(x);
+	carParts_->at(EnumHelper::CarPart::CAR_BODY).setY(y + 2);
 
-	carParts_->at(CarPart::RIGHT_TOP_TIRE).setX(x + 1);
-	carParts_->at(CarPart::RIGHT_TOP_TIRE).setY(y + 1);
-	carParts_->at(CarPart::RIGHT_BOTTOM_TIRE).setX(x + 1);
-	carParts_->at(CarPart::RIGHT_BOTTOM_TIRE).setY(y + 3);
+	carParts_->at(EnumHelper::CarPart::RIGHT_TOP_TIRE).setX(x + 1);
+	carParts_->at(EnumHelper::CarPart::RIGHT_TOP_TIRE).setY(y + 1);
+	carParts_->at(EnumHelper::CarPart::RIGHT_BOTTOM_TIRE).setX(x + 1);
+	carParts_->at(EnumHelper::CarPart::RIGHT_BOTTOM_TIRE).setY(y + 3);
 
 	speedStep_    = 0.1;
 	minCarSpeed_  = 1.0;
@@ -67,22 +67,22 @@ Car::move(const int& direction, const int& fieldWidth, const int& fieldHeight) {
 	int rightBorder = fieldWidth - 2;
 
 	switch (direction) {
-	case DIRECTION_LEFT:
-		if (carParts_->at(LEFT_TOP_TIRE).getX() == leftBorder) {
+	case EnumHelper::DIRECTION_LEFT:
+		if (carParts_->at(EnumHelper::LEFT_TOP_TIRE).getX() == leftBorder) {
 			return;
 		}
 		dX = -1;
 		break;
-	case DIRECTION_RIGHT:
-		if (carParts_->at(RIGHT_TOP_TIRE).getX() == rightBorder) {
+	case EnumHelper::DIRECTION_RIGHT:
+		if (carParts_->at(EnumHelper::RIGHT_TOP_TIRE).getX() == rightBorder) {
 			return;
 		}
 		dX = 1;
 		break;
-	case DIRECTION_UP:
+	case EnumHelper::DIRECTION_UP:
 		currentSpeed_ += speedStep_;
 		break;
-	case DIRECTION_DOWN:
+	case EnumHelper::DIRECTION_DOWN:
 		currentSpeed_ -= speedStep_;
 
 		if (currentSpeed_ <= minCarSpeed_) {

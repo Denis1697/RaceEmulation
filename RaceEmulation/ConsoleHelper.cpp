@@ -33,27 +33,27 @@ ConsoleHelper::drawWindow(const Coordinate& leftTopCoord,
 	int dY = y2 - y1;
 
 	setCursorPosition(leftTopCoord);
-	cout << static_cast<char>(WindowPart::LEFT_TOP_CORNER);
+	cout << static_cast<char>(EnumHelper::WindowPart::LEFT_TOP_CORNER);
 	setCursorPosition({ x2, y1 });
-	cout << static_cast<char>(WindowPart::RIGHT_TOP_CORNER);
+	cout << static_cast<char>(EnumHelper::WindowPart::RIGHT_TOP_CORNER);
 	setCursorPosition(rightBottomCoord);
-	cout << static_cast<char>(WindowPart::RIGHT_BOTTOM_CORNER);
+	cout << static_cast<char>(EnumHelper::WindowPart::RIGHT_BOTTOM_CORNER);
 	setCursorPosition({ x1, y2 });
-	cout << static_cast<char>(WindowPart::LEFT_BOTTOM_CORNER);
+	cout << static_cast<char>(EnumHelper::WindowPart::LEFT_BOTTOM_CORNER);
 
 
 	for (int i = 0; i < dX - 1; i++) {
 		setCursorPosition({ x1 + i + 1, y1 });
-		cout << static_cast<char>(WindowPart::HORIZONTAL_PART);
+		cout << static_cast<char>(EnumHelper::WindowPart::HORIZONTAL_PART);
 		setCursorPosition({ x1 + i + 1, y2 });
-		cout << static_cast<char>(WindowPart::HORIZONTAL_PART);
+		cout << static_cast<char>(EnumHelper::WindowPart::HORIZONTAL_PART);
 	}
 
 	for (int i = 0; i < dY - 1; i++) {
 		setCursorPosition({ x1, y1 + i + 1 });
-		cout << static_cast<char>(WindowPart::VERTICAL_PART);
+		cout << static_cast<char>(EnumHelper::WindowPart::VERTICAL_PART);
 		setCursorPosition({ x2, y1 + i + 1 });
-		cout << static_cast<char>(WindowPart::VERTICAL_PART);
+		cout << static_cast<char>(EnumHelper::WindowPart::VERTICAL_PART);
 	}
 }
 

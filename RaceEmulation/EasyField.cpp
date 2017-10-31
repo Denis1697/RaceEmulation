@@ -3,13 +3,14 @@
 EasyField::EasyField() {
 	for (int j = 0; j < FIELD_HEIGHT; j++) {
 		for (int i = 0; i < FIELD_WIDTH; i++) {
-			BlockType currentBorder = (j % 2 == 0 ? BORDER_ONE : BORDER_TWO);
+			EnumHelper::BlockType currentBorder =
+				(j % 2 == 0 ? EnumHelper::BORDER_ONE : EnumHelper::BORDER_TWO);
 
 			if (i == 0 || i == FIELD_WIDTH - 1) {
 				raceField_[j][i] = currentBorder;
 			}
 			else {
-				raceField_[j][i] = EMPTY;
+				raceField_[j][i] = EnumHelper::EMPTY;
 			}
 		}
 	}
@@ -21,14 +22,14 @@ EasyField::generateObstacle() {
 	int obstacleLength = 0;
 
 	switch (obstacleChoice) {
-	case STONE: obstacleLength = 1;	break;
-	case LOG:   obstacleLength = 3;	break;
-	case TREE:  obstacleLength = 5;	break;
+	case EnumHelper::STONE: obstacleLength = 1;	break;
+	case EnumHelper::LOG:   obstacleLength = 3;	break;
+	case EnumHelper::TREE:  obstacleLength = 5;	break;
 	}
 
 	int x;
 
-	if (obstacleChoice == TREE && FIELD_WIDTH < 10) {
+	if (obstacleChoice == EnumHelper::TREE && FIELD_WIDTH < 10) {
 		int choice = rand() % 2;
 
 		switch (choice) {
@@ -41,7 +42,7 @@ EasyField::generateObstacle() {
 	}
 
 	for (int i = x; i < x + obstacleLength; i++) {
-		buffer_[i] = OBSTACLE;
+		buffer_[i] = EnumHelper::OBSTACLE;
 	}
 }
 
@@ -60,7 +61,7 @@ EasyField::getBufferBlockType(const Coordinate& coordinate) const
 void
 EasyField::clearBuffer() {
 	for (int i = 1; i < FIELD_WIDTH - 1; i++) {
-		buffer_[i] = EMPTY;
+		buffer_[i] = EnumHelper::EMPTY;
 	}
 }
 
@@ -71,7 +72,7 @@ EasyField::placeObstacle() {
 	for (int i = 0; i < FIELD_WIDTH; i++) {
 		int bufferBlockType = getBufferBlockType({ i, 0 });
 
-		if (bufferBlockType == BlockType::OBSTACLE) {
+		if (bufferBlockType == EnumHelper::BlockType::OBSTACLE) {
 			setBlockType({ i, 0 }, bufferBlockType);
 		}
 	}
