@@ -20,6 +20,7 @@ using namespace std;
 #include "EasyField.h"
 #include "ConsoleHelper.h"
 #include "GameProcessor.h"
+#include "IMessage.h"
 #include "ConsoleNotifier.h"
 #include "EnumHelper.h"
 

@@ -166,6 +166,7 @@
     <ClInclude Include="EasyField.h" />
     <ClInclude Include="EnumHelper.h" />
     <ClInclude Include="GameProcessor.h" />
+    <ClInclude Include="IMessage.h" />
     <ClInclude Include="Includes.h" />
     <ClInclude Include="RaceField.h" />
     <ClInclude Include="Timer.h" />

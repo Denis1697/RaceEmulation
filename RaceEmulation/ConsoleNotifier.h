@@ -1,7 +1,7 @@
 #ifndef __CONSOLENOTIFIER_H__
 #define __CONSOLENOTIFIER_H__
 
-class ConsoleNotifier 
+class ConsoleNotifier : public IMessage
 {
 public:
 	void        showStatistics(const int&, const string&, const double&) const;
