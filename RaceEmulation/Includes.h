@@ -2,6 +2,7 @@
 #define __INCLUDES_H__
 
 #include <iostream>
+#include <fstream>
 #include <iomanip>
 #include <ctime>
 #include <cstdlib>
@@ -24,5 +25,6 @@ using namespace std;
 #include "ConsoleNotifier.h"
 #include "EnumHelper.h"
 #include "FileProcessor.h"
+#include "Game.h"
 
 #endif

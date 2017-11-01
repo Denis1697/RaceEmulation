@@ -122,6 +122,21 @@ Car::getPartsCoords() const {
 	return *carParts_;
 }
 
+void 
+Car::setMinSpeed(const double& minCarSpeed) {
+	minCarSpeed_ = minCarSpeed;
+}
+
+void 
+Car::setSpeedStep(const double& speedStep) {
+	speedStep_ = speedStep;
+}
+
+void 
+Car::setCurrentSpeed(const double& currentSpeed) {
+	currentSpeed_ = currentSpeed;
+}
+
 double
 Car::getMinSpeed() const {
 	return minCarSpeed_;

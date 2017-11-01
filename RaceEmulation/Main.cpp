@@ -3,73 +3,43 @@
 void main()
 {
 	srand(static_cast<unsigned int>(time(0)));
-
-	bool gameStatus = EnumHelper::STATUS_ACTIVE;
-
+	
+	FileProcessor   fileProcessor;
 	ConsoleNotifier consoleNotifier;
-	GameProcessor   gameProcessor;
-	RaceField*      field;
+	Game* game = nullptr;
+	bool isNewGame = true; 
+	int gameResult;
 
-	int gameMode = consoleNotifier.startingMode();
-	if (gameMode == EnumHelper::OBSTACLE_MODE) {
-		field = new EasyField();
-	}
-	else {
-		field = new ComplicatedField();
-	}
-
-	int xOffset = field->getWidth() / 2;
-	int yOffset = field->getHeight() - 5;
-
-	Coordinate topCarCoord(xOffset, yOffset);
-	Car        car(topCarCoord);
-	Timer      timer;
-
-	gameProcessor.setRaceField(field);
-	gameProcessor.setCar(car);
-	gameProcessor.placeCar(car.getPartsCoords());
-
-	timer.start();
-
-	ConsoleHelper::setCursorState(false);
-
-	while (gameStatus == EnumHelper::STATUS_ACTIVE) {
-
-		while (_kbhit() == 0) {
-			timer.calculateTime();
-
-			string time     = timer.getTime();
-			double speed    = gameProcessor.getCar().getCurrentSpeed();
-			int    distance = gameProcessor.getTraveledDistance();
-			
-			consoleNotifier.showStatistics(distance, time, speed);
-			gameProcessor.computeGameTick();
-			field->draw();
+	while (true) {
+		if (isNewGame) {
+			delete game;
+			game = new Game();
+			isNewGame = false;
 		}
 
-		int key = _getch();
+		int menuPoint = consoleNotifier.menu();
+		int difficulty = EnumHelper::eDifficulty::EASY;
 
-		bool wasArrowPressed  = (key == EnumHelper::eDirection::DIRECTION_LEFT);
-		     wasArrowPressed |= (key == EnumHelper::eDirection::DIRECTION_RIGHT);
-		     wasArrowPressed |= (key == EnumHelper::eDirection::DIRECTION_UP);
-		     wasArrowPressed |= (key == EnumHelper::eDirection::DIRECTION_DOWN);
-
-		if (wasArrowPressed) {
-			gameProcessor.computeCarMove(key);
-			gameProcessor.drawCar();
-		}
-		else {
-			switch (key) {
-			    case EnumHelper::eServiceButton::ENTER:
-			        consoleNotifier.setPause();
-			        break;
-			    case EnumHelper::eServiceButton::ESCAPE:
-					if (consoleNotifier.leaveTheGame() == true) {
-						gameStatus = false;
-					}
-				default:
-					break;
-			}
+		switch (menuPoint) {
+		    case EnumHelper::eMenuPoint::POINT_NEW_GAME:
+				game->run();
+				isNewGame = true;
+		    	break;
+		    case EnumHelper::eMenuPoint::POINT_RECORDS:
+		    	consoleNotifier.recordsTable(fileProcessor.loadTable());
+		    	break;
+		    case EnumHelper::eMenuPoint::POINT_INFORMATION:
+				consoleNotifier.information();
+		    	break;
+		    case EnumHelper::eMenuPoint::POINT_DIFFICULTY:
+				difficulty = consoleNotifier.difficultyChoose();
+				game->setDifficulty(difficulty);
+		    	break;
+		    case EnumHelper::eMenuPoint::POINT_EXIT:
+				exit(0);
+		    	break;
+		    default:
+		    	break;
 		}
 	}
 }

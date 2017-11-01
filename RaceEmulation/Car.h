@@ -11,6 +11,9 @@ public:
 	Car & operator=(const Car& car); 
 
 	const vector<Coordinate>& getPartsCoords()                   const;
+	void        setMinSpeed(const double& minCarSpeed);
+	void        setSpeedStep(const double& speedStep);
+	void        setCurrentSpeed(const double& currentSpeed);
 	double      getMinSpeed()                                    const;
 	double      getSpeedStep()                                   const;
 	int         getPartsCount()                                  const;

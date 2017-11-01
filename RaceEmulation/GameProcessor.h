@@ -7,15 +7,16 @@ public:
 	GameProcessor();
 	~GameProcessor();
 
-	bool         isCarCrushed(const int& direction = 0)          const;
-	void         computeGameTick();
-	void         computeCarMove(const int& direction);
-	int          getTraveledDistance()                           const;
-	void         setRaceField(RaceField* raceField);		        
-	const Car&   getCar()                                        const;
-	void         setCar(const Car& car);
-	void         drawCar()                                       const;
-	void         placeCar(const vector<Coordinate>& oldPosition);
+	bool             isCarCrushed(const int& direction = 0)          const;
+	int              computeGameTick();
+	int              computeCarMove(const int& direction);
+	int              getTraveledDistance()                           const;
+	void             setRaceField(RaceField* raceField);		        
+	Car&             getCar();
+	void             setCar(const Car& car);
+	void             drawCar()                                       const;
+	void             placeCar(const vector<Coordinate>& oldPosition);
+	const RaceField& getField()                                      const;
 private:	            
 	void         alternateBorders()                              const;
 

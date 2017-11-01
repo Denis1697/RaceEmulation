@@ -23,6 +23,27 @@ public:
 	static int  OBSTACLE_ANSWER;
 	static int  CAR_ANSWER;
 	static int  ARRAY_OFFSET;
+	static int  NICKNAME_CONSTRAINT;
+	static int  NOTE_DATA_COUNT;
+
+	enum eDifficulty {
+		EASY   = 1,
+		MEDIUM = 2,
+		HARD   = 3
+	};
+
+	enum eCarMoveResult {
+		FAIL,
+		SUCCESS
+	};
+
+	enum eMenuPoint {
+		POINT_NEW_GAME    = 1,
+		POINT_RECORDS     = 2,
+		POINT_INFORMATION = 3,
+		POINT_DIFFICULTY  = 4,
+		POINT_EXIT        = 5
+	};
 
 	enum eBlockType {
 		EMPTY = 32,

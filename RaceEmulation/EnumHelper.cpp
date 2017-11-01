@@ -3,7 +3,7 @@
 int  EnumHelper::OBSTACLE_MODE       = 1;
 int  EnumHelper::CAR_MODE            = 2;
 bool EnumHelper::STATUS_ACTIVE       = true;
-bool EnumHelper::STATUS_EXIT         = true;
+bool EnumHelper::STATUS_EXIT         = false;
 int  EnumHelper::SECONDS_PER_MINUTE  = 60;
 int  EnumHelper::MINUTES_PER_SECONDS = 60;
 int  EnumHelper::ONE_SECOND          = 1000;
@@ -17,3 +17,5 @@ int  EnumHelper::DECIMAL             = 10;
 int  EnumHelper::OBSTACLE_ANSWER     = 1;
 int  EnumHelper::CAR_ANSWER          = 2;
 int  EnumHelper::ARRAY_OFFSET        = 1;
+int  EnumHelper::NICKNAME_CONSTRAINT = 8;
+int  EnumHelper::NOTE_DATA_COUNT     = 3;

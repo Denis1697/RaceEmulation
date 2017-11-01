@@ -87,7 +87,12 @@ GameProcessor::placeCar(const vector<Coordinate>& oldPosition) {
 		EnumHelper::eBlockType::CAR_TIRE);
 }
 
-void
+const RaceField& 
+GameProcessor::getField() const {
+	return *raceField_;
+}
+
+int
 GameProcessor::computeGameTick() {
 	int width = raceField_->getWidth();
 	int height = raceField_->getHeight();
@@ -138,6 +143,7 @@ GameProcessor::computeGameTick() {
 
 	if (isCarCrushed(EnumHelper::eDirection::DIRECTION_UP)) {
 		ConsoleNotifier::gameOver();
+		return EnumHelper::eCarMoveResult::FAIL;
 	}
 
 	nGameTicks_++;
@@ -146,9 +152,10 @@ GameProcessor::computeGameTick() {
 	int drawSpeed = EnumHelper::ONE_SECOND / currentSpeed;
 
 	Sleep(drawSpeed);
+	return EnumHelper::eCarMoveResult::SUCCESS;
 }
 
-void
+int
 GameProcessor::computeCarMove(const int& direction) {
 	int nParts = car_.getPartsCount();
 
@@ -164,11 +171,13 @@ GameProcessor::computeCarMove(const int& direction) {
 
 	if (isCarCrushed(direction)) {
 		ConsoleNotifier::gameOver();
+		return EnumHelper::FAIL;
 	}
 	else {
 		placeCar(oldParts);
 		drawCar();
 	}
+	return EnumHelper::SUCCESS;
 }
 
 void
@@ -181,8 +190,8 @@ GameProcessor::setRaceField(RaceField* raceField) {
 	raceField_ = raceField;
 }
 
-const Car &
-GameProcessor::getCar() const {
+Car&
+GameProcessor::getCar() {
 	return car_;
 }
 

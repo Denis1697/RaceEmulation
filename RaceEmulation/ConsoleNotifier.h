@@ -8,7 +8,11 @@ public:
 	bool        leaveTheGame()                                           const;
 	void        setPause()                                               const;
 	int         startingMode()                                           const;
-	//int         menu()                                                   const;
+	int         menu()                                                   const;
+	void        recordsTable(const vector<string>& records)              const;
+	string      inputNickname()                                          const; 
+	int		    difficultyChoose()                                       const; 
+	void        information()                                            const;
 	static void gameOver();
 };
 

@@ -4,10 +4,8 @@
 class FileProcessor
 {
 public:
-	FileProcessor();
-
-	static const vector<string>& loadTable();
-	static const void            addTableNote(const vector<string>& note);
+	static vector<string> loadTable();
+	static void           addTableNote(const vector<string>& note);
 };
 
 #endif
